@@ -41,7 +41,9 @@ def main() -> None:
 
     base = f"http://127.0.0.1:{args.port}"
     process = subprocess.Popen(
-        ["npx", "--no-install", "vite", "preview", "--port", str(args.port), "--strictPort"],
+        # --host 127.0.0.1 is required: without it vite binds localhost (IPv6 ::1 on macOS) and a
+        # 127.0.0.1 health check is refused, which reads as "the app is down" when it is not.
+        ["npx", "--no-install", "vite", "preview", "--port", str(args.port), "--strictPort", "--host", "127.0.0.1"],
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
