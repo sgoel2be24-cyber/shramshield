@@ -91,7 +91,7 @@ export default function App() {
       .map((def) => ({
         ...def,
         plan: planShift(hours, def.category, def.acclimatised),
-        window: optimiseShiftWindow(hours, def.category, def.acclimatised, shiftLength),
+        shiftWindow: optimiseShiftWindow(hours, def.category, def.acclimatised, shiftLength),
       }));
   }, [hours, category, acclimatised, shiftLength]);
 
@@ -268,7 +268,7 @@ export default function App() {
         <div className="content">
           <PlanView
             plan={plan}
-            window={windowResult}
+            shiftWindow={windowResult}
             category={category}
             acclimatised={acclimatised}
             sourceLabel={sourceLabel}
@@ -281,7 +281,7 @@ export default function App() {
             }}
           />
           <WhatIfPanel
-            current={{ category, acclimatised, plan, window: windowResult }}
+            current={{ category, acclimatised, plan, shiftWindow: windowResult }}
             scenarios={whatIfScenarios}
             onApply={(nextCategory, nextAcclimatised) => {
               setCategory(nextCategory);

@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 interface PlanViewProps {
   plan: ShiftPlan;
-  window: ShiftWindowResult;
+  shiftWindow: ShiftWindowResult;
   category: WorkCategory;
   acclimatised: boolean;
   sourceLabel: string;
@@ -34,9 +34,9 @@ function windowWaterLitres(plan: ShiftPlan, best: ShiftWindowCandidate | null): 
   return Math.round((millilitres / 1000) * 10) / 10;
 }
 
-export function PlanView({ plan, window, category, acclimatised, sourceLabel, textMeta }: PlanViewProps) {
-  const best = window.best;
-  const naive = window.naive;
+export function PlanView({ plan, shiftWindow, category, acclimatised, sourceLabel, textMeta }: PlanViewProps) {
+  const best = shiftWindow.best;
+  const naive = shiftWindow.naive;
   // Hours where work must stop *inside the recommended shift* — the banner speaks about this
   // shift, so counting the whole dataset would overstate it. Falls back to the day if there is
   // no window to recommend.
@@ -55,7 +55,7 @@ export function PlanView({ plan, window, category, acclimatised, sourceLabel, te
         <h2 id="plan-heading">Today&rsquo;s shift plan</h2>
         <div className="panel-head-actions">
           <span className="source-chip">{sourceLabel}</span>
-          <CopyPlanButton plan={plan} window={window} meta={textMeta} />
+          <CopyPlanButton plan={plan} shiftWindow={shiftWindow} meta={textMeta} />
         </div>
       </div>
 
@@ -283,15 +283,15 @@ function minutesToHuman(minutes: number): string {
  */
 function CopyPlanButton({
   plan,
-  window: windowResult,
+  shiftWindow,
   meta,
 }: {
   plan: ShiftPlan;
-  window: ShiftWindowResult;
+  shiftWindow: ShiftWindowResult;
   meta: PlanTextMeta;
 }) {
   const [state, setState] = useState<'idle' | 'copied' | 'manual'>('idle');
-  const text = planToText(plan, windowResult, meta);
+  const text = planToText(plan, shiftWindow, meta);
 
   const copy = async () => {
     try {

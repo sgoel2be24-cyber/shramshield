@@ -13,9 +13,9 @@ export interface PlanTextMeta {
   acclimatised: boolean;
 }
 
-export function planToText(plan: ShiftPlan, window: ShiftWindowResult, meta: PlanTextMeta): string {
-  const best = window.best;
-  const naive = window.naive;
+export function planToText(plan: ShiftPlan, shiftWindow: ShiftWindowResult, meta: PlanTextMeta): string {
+  const best = shiftWindow.best;
+  const naive = shiftWindow.naive;
   const lines: string[] = [];
 
   lines.push('ShramShield — heat-safety shift plan');

@@ -4,7 +4,7 @@ import { WORK_CATEGORIES } from '../lib/standards';
 
 interface WhatIfPanelProps {
   /** The plan under the *current* controls, for the side-by-side. */
-  current: { category: WorkCategory; acclimatised: boolean; plan: ShiftPlan; window: ShiftWindowResult };
+  current: { category: WorkCategory; acclimatised: boolean; plan: ShiftPlan; shiftWindow: ShiftWindowResult };
   /** One-click scenarios; each is a full plan computed by the same engine. */
   scenarios: WhatIfScenario[];
   onApply: (category: WorkCategory, acclimatised: boolean) => void;
@@ -17,7 +17,7 @@ export interface WhatIfScenario {
   category: WorkCategory;
   acclimatised: boolean;
   plan: ShiftPlan;
-  window: ShiftWindowResult;
+  shiftWindow: ShiftWindowResult;
 }
 
 /**
@@ -31,14 +31,14 @@ export function WhatIfPanel({ current, scenarios, onApply }: WhatIfPanelProps) {
     <section className="panel" aria-labelledby="whatif-heading">
       <h2 id="whatif-heading">Would today be different?</h2>
       <p className="panel-note">
-        The same day, re-planned three ways. Each column is a complete plan from the same engine —
-        no fixtures, no hand-picked numbers.
+        The same day, re-planned {countWord(scenarios.length)}. Each column is a complete plan from the
+        same engine — no fixtures, no hand-picked numbers.
       </p>
       <div className="whatif-grid">
         <WhatIfCard
           title={`Current — ${currentLabel}, ${current.acclimatised ? 'acclimatised' : 'new / returning'}`}
           plan={current.plan}
-          window={current.window}
+          shiftWindow={current.shiftWindow}
           isCurrent
         />
         {scenarios.map((scenario) => (
@@ -47,7 +47,7 @@ export function WhatIfPanel({ current, scenarios, onApply }: WhatIfPanelProps) {
             title={scenario.label}
             description={scenario.description}
             plan={scenario.plan}
-            window={scenario.window}
+            shiftWindow={scenario.shiftWindow}
             onApply={() => onApply(scenario.category, scenario.acclimatised)}
           />
         ))}
@@ -56,22 +56,32 @@ export function WhatIfPanel({ current, scenarios, onApply }: WhatIfPanelProps) {
   );
 }
 
+/**
+ * A scenario matching the current controls is dropped from the list, so the count is not always
+ * three — and the walkthrough sends judges to "Very heavy work", which is exactly a case where it
+ * is two. Deriving the word from the list means the copy cannot disagree with the columns.
+ */
+function countWord(count: number): string {
+  const words = ['no other way', 'one other way', 'two other ways', 'three other ways'];
+  return words[count] ?? `${count} other ways`;
+}
+
 function WhatIfCard({
   title,
   description,
   plan,
-  window,
+  shiftWindow,
   isCurrent = false,
   onApply,
 }: {
   title: string;
   description?: string;
   plan: ShiftPlan;
-  window: ShiftWindowResult;
+  shiftWindow: ShiftWindowResult;
   isCurrent?: boolean;
   onApply?: () => void;
 }) {
-  const best = window.best;
+  const best = shiftWindow.best;
   const stopCount = plan.hours.filter((hour) => hour.allocation.mustStopWork).length;
   return (
     <article className={isCurrent ? 'whatif-card whatif-current' : 'whatif-card'}>
