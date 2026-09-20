@@ -102,7 +102,8 @@ export function PlanView({ plan, window, category, acclimatised, sourceLabel }: 
       </div>
 
       {best && naive && best.startIndex !== naive.startIndex ? (
-        <table className="compare">
+        <div className="table-scroll">
+          <table className="compare">
           <thead>
             <tr>
               <th scope="col">Shift window</th>
@@ -126,6 +127,7 @@ export function PlanView({ plan, window, category, acclimatised, sourceLabel }: 
             </tr>
           </tbody>
         </table>
+        </div>
       ) : null}
 
       <h3 className="timeline-heading">Hour by hour</h3>
