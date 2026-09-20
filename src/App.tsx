@@ -6,6 +6,7 @@ import { fetchLiveForecast, type LiveForecast } from './lib/live';
 import { EVIDENCE } from './lib/evidence';
 import { PlanView } from './components/PlanView';
 import { ImpactStrip } from './components/ImpactStrip';
+import { WhatIfPanel, type WhatIfScenario } from './components/WhatIfPanel';
 import { ManualConditions } from './components/ManualConditions';
 import { MethodPanel } from './components/MethodPanel';
 import './App.css';
@@ -37,6 +38,41 @@ export default function App() {
     () => optimiseShiftWindow(hours, category, acclimatised, shiftLength),
     [hours, category, acclimatised, shiftLength],
   );
+
+  // The three comparison plans — same dataset, same engine, different controls. Built with
+  // useMemo so switching the main controls re-plans them too.
+  const whatIfScenarios = useMemo<WhatIfScenario[]>(() => {
+    const defs: { id: string; label: string; description: string; category: WorkCategory; acclimatised: boolean }[] = [
+      {
+        id: 'heavier',
+        label: 'Very heavy work',
+        description: 'Same day, digging / shovelling pace',
+        category: 'veryHeavy',
+        acclimatised,
+      },
+      {
+        id: 'new-crew',
+        label: 'New / returning worker',
+        description: 'Same work rate, lower published limits',
+        category,
+        acclimatised: false,
+      },
+      {
+        id: 'heavier-new',
+        label: 'Very heavy, new worker',
+        description: 'The combination with the strictest plan',
+        category: 'veryHeavy',
+        acclimatised: false,
+      },
+    ];
+    return defs
+      .filter((def) => !(def.category === category && def.acclimatised === acclimatised))
+      .map((def) => ({
+        ...def,
+        plan: planShift(hours, def.category, def.acclimatised),
+        window: optimiseShiftWindow(hours, def.category, def.acclimatised, shiftLength),
+      }));
+  }, [hours, category, acclimatised, shiftLength]);
 
   const sourceLabel =
     live.status === 'ready'
@@ -209,6 +245,14 @@ export default function App() {
               categoryLabel:
                 WORK_CATEGORIES.find((entry) => entry.id === category)?.label ?? category,
               acclimatised,
+            }}
+          />
+          <WhatIfPanel
+            current={{ category, acclimatised, plan, window: windowResult }}
+            scenarios={whatIfScenarios}
+            onApply={(nextCategory, nextAcclimatised) => {
+              setCategory(nextCategory);
+              setAcclimatised(nextAcclimatised);
             }}
           />
           <ImpactStrip />

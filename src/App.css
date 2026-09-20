@@ -276,6 +276,60 @@ button {
   font-size: 0.92rem;
 }
 
+.whatif-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.whatif-card {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.whatif-card h4 {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.whatif-desc {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.whatif-current {
+  border-color: rgba(242, 177, 60, 0.5);
+}
+
+.whatif-tag {
+  font-size: 0.72rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ghost-apply {
+  align-self: flex-start;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  margin-top: auto;
+}
+
+.ghost-apply:hover {
+  border-color: var(--accent);
+}
+
 .panel {
   background: var(--panel);
   border: 1px solid var(--line);
