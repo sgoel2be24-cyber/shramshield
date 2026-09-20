@@ -182,6 +182,8 @@ b190a80 15:01  fix: the compute badge said 'plan computed in 0 ms' when the plan
 e3d66fa 15:07  fix: what-if copy said 'three ways' while showing two — derive the count from the r...
 36e13a9 15:07  docs: regenerate the provenance trail
 816a73a 15:08  deck: correct the walkthrough's stop-hour count and label the stop-work row's basis...
+9a316ef 15:08  docs: regenerate the provenance trail
+61dc1d9 15:16  feat: shared plan links unfurl with a title and description instead of a bare URL
 ```
 
 *(One slip preserved rather than rewritten: commit `7954773`'s subject misdates the Stull
