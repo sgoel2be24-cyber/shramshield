@@ -5,6 +5,7 @@ import { WORK_CATEGORIES, type WorkCategory } from './lib/standards';
 import { fetchLiveForecast, type LiveForecast } from './lib/live';
 import { EVIDENCE } from './lib/evidence';
 import { PlanView } from './components/PlanView';
+import { ImpactStrip } from './components/ImpactStrip';
 import { ManualConditions } from './components/ManualConditions';
 import { MethodPanel } from './components/MethodPanel';
 import './App.css';
@@ -210,6 +211,7 @@ export default function App() {
               acclimatised,
             }}
           />
+          <ImpactStrip />
           <ManualConditions category={category} acclimatised={acclimatised} />
           <MethodPanel />
           <footer className="footer">
