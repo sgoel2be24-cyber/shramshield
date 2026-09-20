@@ -23,7 +23,7 @@ reading costs the same crew 270 minutes of permitted work. Dry-bulb alerts canno
 Everything runs client-side with no API key and no server: real bundled data for seven Indian cities
 plus two heatwave archive days means the demo works offline, and a live forecast is an optional
 upgrade. The plan can be copied as text for a crew hand-off (WhatsApp-ready) or printed as a wall
-sheet. Verified: 73/73 engine tests, and the wet-bulb term agrees with Open-Meteo's independent
+sheet. Verified: 76/76 engine tests, and the wet-bulb term agrees with Open-Meteo's independent
 implementation to a 0.051 °C mean / 0.170 °C worst-case deviation across 504 real forecast hours.
 
 ## Links

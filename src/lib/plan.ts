@@ -99,6 +99,18 @@ export interface ShiftWindowResult {
  * later tie-break (cumulative heat load, peak WBGT, earlier start) while losing exactly the same
  * minutes to the heat — and the copy must not then claim the 09:00 rota won.
  */
+/**
+ * The compute-time badge's label.
+ *
+ * Browsers clamp `performance.now()` to about 0.1 ms for timing-attack reasons, so a plan that
+ * really does take 40 microseconds measures as exactly 0 — and a badge reading "0 ms" looks like
+ * a broken measurement rather than a fast one. Below the clock's resolution, say so.
+ */
+export function formatComputeTime(milliseconds: number): string {
+  if (!Number.isFinite(milliseconds) || milliseconds < 0) return 'unmeasured';
+  return milliseconds > 0 ? `${milliseconds} ms` : 'under 0.1 ms';
+}
+
 export function windowVerdictLine(
   best: ShiftWindowCandidate | null,
   naive: ShiftWindowCandidate | null,

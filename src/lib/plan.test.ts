@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { firstDayHours, scenarioBySlug } from './fallback';
-import { continuousLimit, optimiseShiftWindow, planShift, windowVerdictLine } from './plan';
+import { continuousLimit, formatComputeTime, optimiseShiftWindow, planShift, windowVerdictLine } from './plan';
 
 const delhi = scenarioBySlug('delhi');
 const delhiDay = firstDayHours(delhi.hours);
@@ -209,5 +209,22 @@ describe('windowVerdictLine', () => {
     expect(windowVerdictLine(null, null)).toBe(
       'Not enough hours in this dataset to fit the requested shift.',
     );
+  });
+});
+
+describe('formatComputeTime', () => {
+  it('reports a measurable time in milliseconds', () => {
+    expect(formatComputeTime(0.3)).toBe('0.3 ms');
+    expect(formatComputeTime(12)).toBe('12 ms');
+  });
+
+  it('does not claim zero when the clock ran out of resolution', () => {
+    // performance.now() is clamped to ~0.1 ms, so a faster computation measures as exactly 0.
+    expect(formatComputeTime(0)).toBe('under 0.1 ms');
+  });
+
+  it('refuses to invent a number from a nonsense measurement', () => {
+    expect(formatComputeTime(Number.NaN)).toBe('unmeasured');
+    expect(formatComputeTime(-1)).toBe('unmeasured');
   });
 });

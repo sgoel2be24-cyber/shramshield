@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-09-20T09:16:56.793Z",
+  "generatedAt": "2026-09-20T09:31:12.059Z",
   "generatedBy": "scripts/collect_evidence.mjs",
   "tests": {
-    "total": 73,
-    "passed": 73,
+    "total": 76,
+    "passed": 76,
     "files": 8,
     "command": "npm test"
   },

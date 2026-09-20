@@ -152,7 +152,7 @@ def build() -> pathlib.Path:
         "pushes very heavy work into a genuine stop-work state. No dry-bulb alert can see that.",
     ], size=17, color=INK)
     card(s, 0.7, 5.5, 5.7, 1.45)
-    text(s, 1.0, 5.68, 5.2, 1.15, ["73/73 engine tests pass", "tsc clean · strict + noUncheckedIndexedAccess"], size=14, color=GOOD, bold=True)
+    text(s, 1.0, 5.68, 5.2, 1.15, ["76/76 engine tests pass", "tsc clean · strict + noUncheckedIndexedAccess"], size=14, color=GOOD, bold=True)
     card(s, 6.9, 5.5, 5.7, 1.45)
     text(s, 7.2, 5.68, 5.2, 1.15, [
         "Wet bulb matches Open-Meteo's independent implementation",

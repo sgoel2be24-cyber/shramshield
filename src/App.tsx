@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FALLBACK_CITIES, HOT_SCENARIOS, dayLabel, pickPlanningDay, scenarioBySlug, type FetchedHour } from './lib/fallback';
-import { optimiseShiftWindow, planShift } from './lib/plan';
+import { formatComputeTime, optimiseShiftWindow, planShift } from './lib/plan';
 import { WORK_CATEGORIES, type WorkCategory } from './lib/standards';
 import { fetchLiveForecast, type LiveForecast } from './lib/live';
 import { EVIDENCE } from './lib/evidence';
@@ -146,7 +146,7 @@ export default function App() {
           <span className="badge badge-good">
             {EVIDENCE.tests.passed}/{EVIDENCE.tests.total} tests green
           </span>
-          <span className="badge badge-good">plan computed in {planMs} ms</span>
+          <span className="badge badge-good">plan computed in {formatComputeTime(planMs)}</span>
         </div>
       </header>
 
