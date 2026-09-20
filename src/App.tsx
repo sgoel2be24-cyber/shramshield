@@ -275,6 +275,7 @@ export default function App() {
             textMeta={{
               locationName: scenario.name,
               dataLabel: dayLabel(hours),
+              category,
               categoryLabel:
                 WORK_CATEGORIES.find((entry) => entry.id === category)?.label ?? category,
               acclimatised,

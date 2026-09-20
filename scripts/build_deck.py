@@ -131,7 +131,7 @@ def build() -> pathlib.Path:
         ["Work / rest per hour", "53 min work / 7 min rest early → 8 min work / 52 min rest at noon"],
         ["Water for the crew", "litres per worker for that window"],
         ["Stop-work hours", "11:00–14:00 across the day, very heavy work, real May 2025 Delhi day"],
-        ["Hand-off", "Copy plan as text (WhatsApp-ready) · print as a one-page wall sheet"],
+        ["Hand-off", "Copy plan as text, English or Hindi (WhatsApp-ready) · print as a wall sheet"],
     ], [0.30, 0.70])
     text(s, 0.7, 5.4, 12, 1.0, [
         "Live forecast, or real bundled data for seven Indian cities and two archived heatwave days —",
@@ -152,7 +152,7 @@ def build() -> pathlib.Path:
         "pushes very heavy work into a genuine stop-work state. No dry-bulb alert can see that.",
     ], size=17, color=INK)
     card(s, 0.7, 5.5, 5.7, 1.45)
-    text(s, 1.0, 5.68, 5.2, 1.15, ["76/76 engine tests pass", "tsc clean · strict + noUncheckedIndexedAccess"], size=14, color=GOOD, bold=True)
+    text(s, 1.0, 5.68, 5.2, 1.15, ["83/83 engine tests pass", "tsc clean · strict + noUncheckedIndexedAccess"], size=14, color=GOOD, bold=True)
     card(s, 6.9, 5.5, 5.7, 1.45)
     text(s, 7.2, 5.68, 5.2, 1.15, [
         "Wet bulb matches Open-Meteo's independent implementation",

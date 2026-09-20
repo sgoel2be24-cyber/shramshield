@@ -2,7 +2,7 @@ import type { PlannedHour, ShiftPlan, ShiftWindowCandidate, ShiftWindowResult } 
 import type { WorkCategory } from '../lib/standards';
 import { firstDayHours, scenarioBySlug } from '../lib/fallback';
 import { planShift, windowVerdictLine } from '../lib/plan';
-import { planToText, type PlanTextMeta } from '../lib/planText';
+import { planToText, type PlanTextLanguage, type PlanTextMeta } from '../lib/planText';
 import { useState } from 'react';
 
 interface PlanViewProps {
@@ -55,7 +55,18 @@ export function PlanView({ plan, shiftWindow, category, acclimatised, sourceLabe
         <h2 id="plan-heading">Today&rsquo;s shift plan</h2>
         <div className="panel-head-actions">
           <span className="source-chip">{sourceLabel}</span>
-          <CopyPlanButton plan={plan} shiftWindow={shiftWindow} meta={textMeta} />
+          {COPY_BUTTONS.map((button) => (
+            <CopyPlanButton
+              key={button.language}
+              plan={plan}
+              shiftWindow={shiftWindow}
+              meta={textMeta}
+              language={button.language}
+              idleLabel={button.idle}
+              doneLabel={button.done}
+              manualLabel={button.manual}
+            />
+          ))}
         </div>
       </div>
 
@@ -281,17 +292,41 @@ function minutesToHuman(minutes: number): string {
  * unavailable (permissions, insecure context); when it fails we show the text to copy by hand
  * instead of silently doing nothing.
  */
+/** The supervisor reads the screen in English; the crew reads the sheet they are handed. */
+const COPY_BUTTONS: { language: PlanTextLanguage; idle: string; done: string; manual: string }[] = [
+  {
+    language: 'en',
+    idle: 'Copy plan',
+    done: 'Copied ✓',
+    manual: 'Clipboard unavailable — select and copy:',
+  },
+  {
+    language: 'hi',
+    idle: 'प्लान कॉपी करें (हिन्दी)',
+    done: 'कॉपी हो गया ✓',
+    manual: 'क्लिपबोर्ड उपलब्ध नहीं — चुनकर कॉपी करें:',
+  },
+];
+
 function CopyPlanButton({
   plan,
   shiftWindow,
   meta,
+  language,
+  idleLabel,
+  doneLabel,
+  manualLabel,
 }: {
   plan: ShiftPlan;
   shiftWindow: ShiftWindowResult;
   meta: PlanTextMeta;
+  language: PlanTextLanguage;
+  idleLabel: string;
+  doneLabel: string;
+  manualLabel: string;
 }) {
   const [state, setState] = useState<'idle' | 'copied' | 'manual'>('idle');
-  const text = planToText(plan, shiftWindow, meta);
+  const text = planToText(plan, shiftWindow, meta, language);
 
   const copy = async () => {
     try {
@@ -305,12 +340,12 @@ function CopyPlanButton({
 
   return (
     <div className="copy-plan">
-      <button type="button" className="ghost small" onClick={copy}>
-        {state === 'copied' ? 'Copied ✓' : 'Copy plan'}
+      <button type="button" className="ghost small" onClick={copy} lang={language}>
+        {state === 'copied' ? doneLabel : idleLabel}
       </button>
       {state === 'manual' ? (
-        <label className="manual-copy">
-          Clipboard unavailable — select and copy:
+        <label className="manual-copy" lang={language}>
+          {manualLabel}
           <textarea readOnly value={text} rows={6} onFocus={(event) => event.currentTarget.select()} />
         </label>
       ) : null}
