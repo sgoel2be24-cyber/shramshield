@@ -184,6 +184,8 @@ e3d66fa 15:07  fix: what-if copy said 'three ways' while showing two — derive 
 816a73a 15:08  deck: correct the walkthrough's stop-hour count and label the stop-work row's basis...
 9a316ef 15:08  docs: regenerate the provenance trail
 61dc1d9 15:16  feat: shared plan links unfurl with a title and description instead of a bare URL
+2def9cd 15:16  docs: regenerate the provenance trail
+eab87db 15:28  feat: the crew's hand-off sheet in Hindi, not just the supervisor's screen
 ```
 
 *(One slip preserved rather than rewritten: commit `7954773`'s subject misdates the Stull
