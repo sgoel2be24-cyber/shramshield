@@ -39,3 +39,25 @@ Method: read the engine, the tables, the tests, README/SUBMISSION/deck copy and 
 No engine change was made in response to this audit, by design: every finding was a documentation
 or labelling defect. Gates re-run after the fixes: `npm test` (63/63), `npm run typecheck`,
 `npm run build`, `python3 scripts/verify_serve.py`, `python3 scripts/check_deck_fit.py` — all green.
+
+---
+
+## Post-audit review pass (14:4x IST, HEAD `7850702`)
+
+The audit above froze at `772b1f6`; five polish features landed after it. An independent review of
+the deployed artifact re-ran every gate and re-tested the paths the audit could not have covered.
+
+| # | Severity | Finding | Repro | Resolution |
+|---|---|---|---|---|
+| 5 | **BLOCKER** | Clicking **Use live forecast** white-screened the deployed app: React error #301, *too many re-renders*. `pickPlanningDay` was called during render, so `hours` had a new identity every render; the new timing badge called `setPlanMs` inside that `useMemo`, making it a render-phase update that re-fired forever. | Load the live site, click the button: `#root` empties, console shows the minified #301. Only a *successful* fetch triggers it — the blocked-network path the audit tested degrades correctly. | `19e97e7` — memoise the planning day, return the timing in the memo's value instead of state. Verified live against a real Open-Meteo fetch. |
+| 6 | MAJOR | The verdict banner could read **"05:00 – 13:00"** and, one line below, *"09:00 is already the best available window today"*. The copy keyed off minutes saved, but a window can win on a later tie-break while losing identical exposure minutes. One click from the what-if panel reached it on the flagship heatwave dataset. | `?city=hot-delhi&cat=veryHeavy&accl=0` | `0085d2d` — extracted `windowVerdictLine()` as a pure function, pinned by 4 tests including one asserting the 09:00 rota is never credited while a different window is recommended. |
+| 7 | MINOR | Audit finding #3 had reopened: the README's provenance trail was 7 commits stale after the polish pass. `SUBMISSION.md` also told judges they would see "four hours that must stop" where the banner shows 2 (in-window) and the timeline 4 (whole day). | `git log` vs the README block | `2be228b` — trail regenerated from `git log`, walkthrough corrected, counts synced to 73/73. |
+| 8 | MINOR | CI ran typecheck, test and build but **not lint** — and `react/set-state-in-render`, the rule that names finding #5 exactly, was only a warning. The one tool that could have caught the blocker was never run. | `npm run lint` exits 0 with warnings; `.github/workflows/ci.yml` has no lint step | Rule promoted to `error` and lint added to CI. Proven: linting `7850702:src/App.tsx` exits 1, current tree exits 0. |
+| 9 | MINOR | The print stylesheet predated the what-if panel and impact strip, so the "one-page wall sheet" printed four alternative plans that look identical to the real one. | Force the `@media print` block: what-if, impact, site-conditions and method panels were all visible. | Print scoped to the plan, timeline and disclaimer; verified by applying the print rules as `@media all`. |
+
+Also added: an error boundary, so a render failure shows what happened and two recoveries instead
+of a blank page — verified with a forced throw, then the probe removed.
+
+Gates after this pass: `npm test` (73/73), `npm run typecheck`, `npm run lint`, `npm run build`,
+`python3 scripts/verify_serve.py`, `python3 scripts/check_deck_fit.py` — all green.
+

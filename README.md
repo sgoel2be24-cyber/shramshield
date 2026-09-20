@@ -102,6 +102,7 @@ Hand-written TypeScript, framework-free (`src/lib/`), unit-tested, no heat-stres
 | Wet-bulb implementation is right | mean absolute deviation **0.051 °C**, worst case **0.170 °C** over **504 real forecast hours** in 7 cities | compared against Open-Meteo's own independent `wet_bulb_temperature_2m` |
 | Type safety | `tsc -b` clean under `strict` + `noUncheckedIndexedAccess` | `npm run typecheck` |
 | Deployed artifact is the built app | marker text + hashed bundle asserted on the served build | `python3 scripts/verify_serve.py` |
+| Regression guard for the bug that got past us | `react/set-state-in-render` is an **error**, and CI runs `npm run lint` | that rule exits 1 on the exact commit that white-screened the live site; exits 0 now |
 
 **What is *not* proven:** the globe-temperature term is our model, with no external measurement to
 check it against; clothing adjustment (heavy PPE adds several degrees of effective WBGT) is not
@@ -114,7 +115,7 @@ applied; night-shift planning is out of scope. These are stated in the app's met
 | **Problem & impact (25)** | Ceiling figures cited above; the "same thermometer, different danger" comparison; each output is an *action* (start time, minutes to work, litres, stop hours), not a readout. |
 | **Innovation (20)** | Forecast→plan without an instrument; the shift-window optimiser; auditable standards-based reasoning instead of an LLM guess. |
 | **Technical (25)** | Own WBGT engine + standards tables + optimiser in framework-free modules; 73 tests pinning table values, formula properties, the optimiser's ranking and its verdict copy, the shareable URL, the copyable plan text and the demo narrative; external validation of the wet-bulb term. |
-| **UX (15)** | One screen: controls → verdict → hour-by-hour timeline → what-if panel → site-conditions → method/evidence. Cited impact strip on the page itself; colour-coded risk; live region for the verdict; `prefers-reduced-motion`; mobile layout; **one-click copy of the plan as text**, print stylesheet for a wall sheet, and a **shareable plan URL** (`?city=&cat=&accl=&shift=`) that restores the exact scenario. |
+| **UX (15)** | One screen: controls → verdict → hour-by-hour timeline → what-if panel → site-conditions → method/evidence. Cited impact strip on the page itself; colour-coded risk; live region for the verdict; `prefers-reduced-motion`; mobile layout; **one-click copy of the plan as text**, print stylesheet scoped to the crew's plan (the what-if alternatives are hidden in print — on paper they look like the real plan), a **shareable plan URL** (`?city=&cat=&accl=&shift=`) that restores the exact scenario, and an error boundary so a render failure explains itself instead of showing a blank page. |
 | **Feasibility (15)** | Static site + one keyless API with a bundled offline fallback; no server, no key, no quota; the same standards apply to any country; ship-able to any labour department or contractor as-is. |
 
 ## Build provenance (HACKDAY 1.0 window, 20 Sep 2026)
