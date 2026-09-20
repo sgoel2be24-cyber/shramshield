@@ -130,7 +130,7 @@ def build() -> pathlib.Path:
         ["Minutes above the limit (8 h window)", "60 min at 05:00 vs 240 min on the 09:00 rota"],
         ["Work / rest per hour", "53 min work / 7 min rest early → 8 min work / 52 min rest at noon"],
         ["Water for the crew", "litres per worker for that window"],
-        ["Stop-work hours", "11:00–14:00 for very heavy work on a real May 2025 Delhi day"],
+        ["Stop-work hours", "11:00–14:00 across the day, very heavy work, real May 2025 Delhi day"],
         ["Hand-off", "Copy plan as text (WhatsApp-ready) · print as a one-page wall sheet"],
     ], [0.30, 0.70])
     text(s, 0.7, 5.4, 12, 1.0, [
@@ -179,7 +179,7 @@ def build() -> pathlib.Path:
     headline(s, "Open the link, switch two controls")
     text(s, 0.7, 2.0, 12, 2.2, [
         "1.  The default view: the verdict line — start 05:00, not 09:00.",
-        "2.  Dataset → Delhi heatwave (May 2025) and Work rate → Very heavy work: four hours that must stop, on a real 2025 day.",
+        "2.  Dataset → Delhi heatwave (May 2025) and Work rate → Very heavy work: the banner names the stop hours inside the shift, the timeline four across the day — a real 2025 day.",
         "3.  “Same thermometer, different danger” — the two-city comparison.",
         "4.  “How this is computed, and what we have not proven” — standards, assumptions, measured evidence.",
     ], size=16)
