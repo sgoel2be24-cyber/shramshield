@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { firstDayHours, scenarioBySlug } from './fallback';
-import { continuousLimit, optimiseShiftWindow, planShift } from './plan';
+import { continuousLimit, optimiseShiftWindow, planShift, windowVerdictLine } from './plan';
 
 const delhi = scenarioBySlug('delhi');
 const delhiDay = firstDayHours(delhi.hours);
@@ -170,5 +170,44 @@ describe('plan arithmetic on the bundled forecast', () => {
       expect(planned.exceedanceC).toBeCloseTo(Math.round(expected * 10) / 10, 1);
       expect(planned.aboveContinuousLimit).toBe(planned.wbgtC > 28.0);
     }
+  });
+});
+
+describe('windowVerdictLine', () => {
+  it('quotes the minutes saved when the recommended window beats the 09:00 rota', () => {
+    const result = optimiseShiftWindow(hotDelhiDay, 'veryHeavy', true, 8);
+    const line = windowVerdictLine(result.best, result.naive);
+    expect(line).toContain('Starting at 05:00');
+    expect(line).toMatch(/keeps \d+ minutes/);
+  });
+
+  it('never claims the 09:00 rota won while a different window is recommended', () => {
+    // Unacclimatised very heavy work on the archived Delhi heatwave: the recommended window
+    // saves no exposure minutes, but it is not the 09:00 rota either.
+    const result = optimiseShiftWindow(hotDelhiDay, 'veryHeavy', false, 8);
+    const best = result.best;
+    const naive = result.naive;
+    expect(best).not.toBeNull();
+    expect(naive).not.toBeNull();
+    expect(best!.startIndex).not.toBe(naive!.startIndex);
+    expect(naive!.exposureMinutes - best!.exposureMinutes).toBeLessThanOrEqual(0);
+
+    const line = windowVerdictLine(best, naive);
+    expect(line).toContain('No start time avoids the heat today');
+    expect(line).not.toContain(`${naive!.startLabel} is already the best available window`);
+  });
+
+  it('says the rota is already best only when the optimiser picked that same start', () => {
+    const result = optimiseShiftWindow(hotDelhiDay, 'veryHeavy', false, 8);
+    const naive = result.naive;
+    expect(windowVerdictLine(naive, naive)).toBe(
+      `${naive!.startLabel} is already the best available window today — the whole day is hot.`,
+    );
+  });
+
+  it('falls back to an honest message when no window fits', () => {
+    expect(windowVerdictLine(null, null)).toBe(
+      'Not enough hours in this dataset to fit the requested shift.',
+    );
   });
 });

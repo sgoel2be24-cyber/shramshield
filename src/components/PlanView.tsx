@@ -1,7 +1,7 @@
 import type { PlannedHour, ShiftPlan, ShiftWindowCandidate, ShiftWindowResult } from '../lib/plan';
 import type { WorkCategory } from '../lib/standards';
 import { firstDayHours, scenarioBySlug } from '../lib/fallback';
-import { planShift } from '../lib/plan';
+import { planShift, windowVerdictLine } from '../lib/plan';
 import { planToText, type PlanTextMeta } from '../lib/planText';
 import { useState } from 'react';
 
@@ -37,8 +37,6 @@ function windowWaterLitres(plan: ShiftPlan, best: ShiftWindowCandidate | null): 
 export function PlanView({ plan, window, category, acclimatised, sourceLabel, textMeta }: PlanViewProps) {
   const best = window.best;
   const naive = window.naive;
-  const savedMinutes =
-    best && naive ? Math.max(0, naive.exposureMinutes - best.exposureMinutes) : 0;
   // Hours where work must stop *inside the recommended shift* — the banner speaks about this
   // shift, so counting the whole dataset would overstate it. Falls back to the day if there is
   // no window to recommend.
@@ -68,14 +66,10 @@ export function PlanView({ plan, window, category, acclimatised, sourceLabel, te
             <p className="hero-window">
               {best.startLabel} &ndash; {best.endLabel}
             </p>
-            <p className="hero-line">
-              {savedMinutes > 0
-                ? `Starting at ${best.startLabel} instead of 09:00 keeps ${savedMinutes} minutes of the shift out of the danger zone.`
-                : `09:00 is already the best available window today — the whole day is hot.`}
-            </p>
+            <p className="hero-line">{windowVerdictLine(best, naive)}</p>
           </>
         ) : (
-          <p className="hero-line">Not enough hours in this dataset to fit the requested shift.</p>
+          <p className="hero-line">{windowVerdictLine(best, naive)}</p>
         )}
         {stopHours.length > 0 ? (
           <p className="hero-stop">

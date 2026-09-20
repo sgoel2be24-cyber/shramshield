@@ -91,6 +91,29 @@ export interface ShiftWindowResult {
   shiftLengthHours: number;
 }
 
+/**
+ * The one-line verdict shown under the recommended window.
+ *
+ * It reconciles two facts that can disagree: which window the optimiser picked, and whether that
+ * window actually saves exposure minutes against the 09:00 rota. A window can rank first on a
+ * later tie-break (cumulative heat load, peak WBGT, earlier start) while losing exactly the same
+ * minutes to the heat — and the copy must not then claim the 09:00 rota won.
+ */
+export function windowVerdictLine(
+  best: ShiftWindowCandidate | null,
+  naive: ShiftWindowCandidate | null,
+): string {
+  if (!best) return 'Not enough hours in this dataset to fit the requested shift.';
+  if (!naive || best.startIndex === naive.startIndex) {
+    return `${best.startLabel} is already the best available window today — the whole day is hot.`;
+  }
+  const saved = Math.max(0, naive.exposureMinutes - best.exposureMinutes);
+  if (saved > 0) {
+    return `Starting at ${best.startLabel} instead of ${naive.startLabel} keeps ${saved} minutes of the shift out of the danger zone.`;
+  }
+  return `No start time avoids the heat today — ${best.startLabel} edges out the ${naive.startLabel} rota only on the tie-breaks (cumulative heat load, peak WBGT, earlier start).`;
+}
+
 export function planShift(
   hours: readonly ForecastHour[],
   category: WorkCategory,
