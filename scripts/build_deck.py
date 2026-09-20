@@ -172,6 +172,11 @@ def build() -> pathlib.Path:
     text(s, 7.3, 2.2, 5.1, 1.4, ["Auditable by design", "Every limit traces to a published table, and the app states what is estimated and what is not proven."], size=14, color=INK)
     card(s, 7.0, 3.9, 5.7, 1.7)
     text(s, 7.3, 4.1, 5.1, 1.4, ["Degrades honestly", "Live forecast fails → bundled real data, with a visible reason. Never a blank screen or a fake number."], size=14, color=INK)
+    card(s, 7.0, 5.8, 5.7, 1.3)
+    text(s, 7.3, 5.95, 5.1, 1.0, [
+        "Cheap to run, measured",
+        "95 KB in 3 requests, no server, no key, zero API calls unless a live forecast is asked for.",
+    ], size=14, color=INK)
 
     # 6 — try it
     s = slide(prs)

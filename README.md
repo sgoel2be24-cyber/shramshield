@@ -116,7 +116,34 @@ applied; night-shift planning is out of scope. These are stated in the app's met
 | **Innovation (20)** | Forecast→plan without an instrument; the shift-window optimiser; auditable standards-based reasoning instead of an LLM guess. |
 | **Technical (25)** | Own WBGT engine + standards tables + optimiser in framework-free modules; 76 tests pinning table values, formula properties, the optimiser's ranking and its verdict copy, the shareable URL, the copyable plan text and the demo narrative; external validation of the wet-bulb term. |
 | **UX (15)** | One screen: controls → verdict → hour-by-hour timeline → what-if panel → site-conditions → method/evidence. Cited impact strip on the page itself; colour-coded risk; live region for the verdict; `prefers-reduced-motion`; mobile layout; **one-click copy of the plan as text**, print stylesheet scoped to the crew's plan (the what-if alternatives are hidden in print — on paper they look like the real plan), a **shareable plan URL** (`?city=&cat=&accl=&shift=`) that restores the exact scenario, and an error boundary so a render failure explains itself instead of showing a blank page. |
-| **Feasibility (15)** | Static site + one keyless API with a bundled offline fallback; no server, no key, no quota; the same standards apply to any country; ship-able to any labour department or contractor as-is. |
+| **Feasibility & scalability (15)** | Measured below: 95 KB and 3 requests on a cold load, no server, no database, no third-party scripts, and **zero API calls unless the user asks for a live forecast**. The free tier covers ~10,000 live plans/day; a commercial deployment is a domain-and-key change. The same standards apply to any country. |
+
+## Feasibility and scalability, measured
+
+The cheapest thing to claim in a hackathon is that something will scale. These are measurements of
+the deployed artifact and quotes from the upstream provider's own pricing table.
+
+| | Measured | How |
+|---|---|---|
+| Cold page load | **95 KB gzipped in 3 requests** (659 B HTML + 93.7 KB JS + 2.8 KB CSS) | `curl -H 'Accept-Encoding: gzip'` against the live deployment |
+| Third-party code | **none** — no analytics, no fonts, no CDN scripts, no tracker | the only external origin the bundle can call is `api.open-meteo.com` |
+| API calls on a default visit | **zero** | the default path plans from bundled real data; the live fetch happens only when the user clicks for it |
+| Works with no network | yes — 7 cities and 2 archived heatwave days ship in the bundle | disconnect and reload; the plan still renders |
+| Server / database / secret | **none** | static files on a CDN; no key exists in the client because the API needs none |
+
+**What happens at scale.** The default path costs nothing but CDN bandwidth, so it scales with the
+host. Only an explicit live forecast touches the network, and it is **one API call per plan**.
+Open-Meteo's free tier publishes 600 calls/min, 5,000/hour, **10,000/day** and 300,000/month — so
+roughly ten thousand live plans a day before anything changes, and the bundled data is the fallback
+if that ceiling is ever hit (the app already degrades to it with a visible reason).
+
+**What it would take to run this for real.** Open-Meteo's free tier is *non-commercial*. A labour
+department or contractor deploying it commercially subscribes to the Standard plan (1M calls/month)
+and switches to `customer-api.open-meteo.com` with a key — the API syntax is identical, so it is a
+base-URL and one parameter, not a rewrite. That is the whole operational cost: static hosting plus
+one weather subscription. There is no per-user server cost, because there is no server.
+
+*(Quotas and tiers above are quoted from [Open-Meteo's pricing page](https://open-meteo.com/en/pricing); the licensing limit is stated rather than glossed, because a free tier that forbids commercial use is exactly the kind of detail a feasibility claim usually skips.)*
 
 ## Build provenance (HACKDAY 1.0 window, 20 Sep 2026)
 

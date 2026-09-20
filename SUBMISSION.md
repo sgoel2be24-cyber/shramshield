@@ -55,6 +55,22 @@ All commits fall inside the 09:00–17:00 IST window on 20 September 2026
 5. Press **Copy plan** (top-right of the plan panel) to see the hand-off artifact a supervisor would
    send to a crew.
 
+## Feasibility and scalability (measured, not asserted)
+
+- **Cold load: 95 KB gzipped in 3 requests.** No server, no database, no third-party scripts, no
+  analytics, no secret in the client — the weather API needs no key.
+- **A default visit makes zero API calls.** Seven Indian cities and two archived heatwave days ship
+  in the bundle, so the tool works with no network; a live forecast is one opt-in call per plan.
+- **Free tier headroom:** Open-Meteo publishes 10,000 calls/day and 300,000/month on the free tier —
+  roughly ten thousand live plans a day — and the app already degrades to bundled data, with a
+  visible reason, if a fetch fails.
+- **Running it for real:** the free tier is non-commercial. A labour department or contractor moves
+  to the Standard plan (1M calls/month) by changing the base URL to `customer-api.open-meteo.com`
+  and adding a key — identical API syntax, so it is a one-line change, not a rewrite. Static hosting
+  plus one weather subscription is the entire operating cost; there is no per-user server cost.
+- **Any country:** ISO 7243 and the ACGIH tables are not India-specific. Adding a location is a
+  latitude and a longitude.
+
 ## Honest limits (stated in the README and in the app)
 
 Globe temperature and natural wet-bulb temperature are modelled, not measured; clothing adjustment
