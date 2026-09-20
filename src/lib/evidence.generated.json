@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-09-20T08:22:18.591Z",
+  "generatedAt": "2026-09-20T08:53:35.539Z",
   "generatedBy": "scripts/collect_evidence.mjs",
   "tests": {
-    "total": 63,
-    "passed": 63,
-    "files": 7,
+    "total": 69,
+    "passed": 69,
+    "files": 8,
     "command": "npm test"
   },
   "wetBulbValidation": {
