@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { FALLBACK_CITIES, HOT_SCENARIOS, firstDayHours, scenarioBySlug, type FetchedHour } from './lib/fallback';
+import { FALLBACK_CITIES, HOT_SCENARIOS, dayLabel, pickPlanningDay, scenarioBySlug, type FetchedHour } from './lib/fallback';
 import { optimiseShiftWindow, planShift } from './lib/plan';
 import { WORK_CATEGORIES, type WorkCategory } from './lib/standards';
 import { fetchLiveForecast, type LiveForecast } from './lib/live';
@@ -26,9 +26,9 @@ export default function App() {
 
   const scenario = useMemo(() => scenarioBySlug(slug), [slug]);
 
-  const bundledHours = useMemo(() => firstDayHours(scenario.hours), [scenario]);
+  const bundledHours = useMemo(() => pickPlanningDay(scenario.hours), [scenario]);
 
-  const liveHours = live.status === 'ready' ? firstDayHours(live.forecast.hours) : null;
+  const liveHours = live.status === 'ready' ? pickPlanningDay(live.forecast.hours) : null;
   const hours: FetchedHour[] = liveHours && liveHours.length > 0 ? liveHours : bundledHours;
 
   const plan = useMemo(() => planShift(hours, category, acclimatised), [hours, category, acclimatised]);
@@ -41,8 +41,8 @@ export default function App() {
     live.status === 'ready'
       ? `Live forecast · ${scenario.name} · fetched ${new Date(live.forecast.fetchedAtIso).toLocaleTimeString('en-IN')}`
       : scenario.kind === 'historical'
-        ? `${scenario.name} · real archive data`
-        : `${scenario.name} · bundled forecast, 20 Sep 2026`;
+        ? `${scenario.name} · real archive data, ${dayLabel(hours)}`
+        : `${scenario.name} · bundled forecast, ${dayLabel(hours)}`;
 
   const runLive = useCallback(async () => {
     setLive({ status: 'loading' });
@@ -202,6 +202,13 @@ export default function App() {
             category={category}
             acclimatised={acclimatised}
             sourceLabel={sourceLabel}
+            textMeta={{
+              locationName: scenario.name,
+              dataLabel: dayLabel(hours),
+              categoryLabel:
+                WORK_CATEGORIES.find((entry) => entry.id === category)?.label ?? category,
+              acclimatised,
+            }}
           />
           <ManualConditions category={category} acclimatised={acclimatised} />
           <MethodPanel />

@@ -2,6 +2,8 @@ import type { PlannedHour, ShiftPlan, ShiftWindowCandidate, ShiftWindowResult } 
 import type { WorkCategory } from '../lib/standards';
 import { firstDayHours, scenarioBySlug } from '../lib/fallback';
 import { planShift } from '../lib/plan';
+import { planToText, type PlanTextMeta } from '../lib/planText';
+import { useState } from 'react';
 
 interface PlanViewProps {
   plan: ShiftPlan;
@@ -9,6 +11,7 @@ interface PlanViewProps {
   category: WorkCategory;
   acclimatised: boolean;
   sourceLabel: string;
+  textMeta: PlanTextMeta;
 }
 
 const STATUS_LABEL: Record<PlannedHour['status'], string> = {
@@ -31,7 +34,7 @@ function windowWaterLitres(plan: ShiftPlan, best: ShiftWindowCandidate | null): 
   return Math.round((millilitres / 1000) * 10) / 10;
 }
 
-export function PlanView({ plan, window, category, acclimatised, sourceLabel }: PlanViewProps) {
+export function PlanView({ plan, window, category, acclimatised, sourceLabel, textMeta }: PlanViewProps) {
   const best = window.best;
   const naive = window.naive;
   const savedMinutes =
@@ -52,7 +55,10 @@ export function PlanView({ plan, window, category, acclimatised, sourceLabel }: 
     <section className="panel" aria-labelledby="plan-heading">
       <div className="panel-head">
         <h2 id="plan-heading">Today&rsquo;s shift plan</h2>
-        <span className="source-chip">{sourceLabel}</span>
+        <div className="panel-head-actions">
+          <span className="source-chip">{sourceLabel}</span>
+          <CopyPlanButton plan={plan} window={window} meta={textMeta} />
+        </div>
       </div>
 
       <div className="verdict-hero" aria-live="polite">
@@ -274,6 +280,48 @@ function ComparisonStrip({ category, acclimatised }: { category: WorkCategory; a
 
 function minutesToHuman(minutes: number): string {
   return `${Math.floor(minutes / 60)} h ${minutes % 60} m`;
+}
+
+/**
+ * The plan as text, for the person who has to hand it to a crew. Clipboard access can be
+ * unavailable (permissions, insecure context); when it fails we show the text to copy by hand
+ * instead of silently doing nothing.
+ */
+function CopyPlanButton({
+  plan,
+  window: windowResult,
+  meta,
+}: {
+  plan: ShiftPlan;
+  window: ShiftWindowResult;
+  meta: PlanTextMeta;
+}) {
+  const [state, setState] = useState<'idle' | 'copied' | 'manual'>('idle');
+  const text = planToText(plan, windowResult, meta);
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setState('copied');
+      window.setTimeout(() => setState('idle'), 2500);
+    } catch {
+      setState('manual');
+    }
+  };
+
+  return (
+    <div className="copy-plan">
+      <button type="button" className="ghost small" onClick={copy}>
+        {state === 'copied' ? 'Copied ✓' : 'Copy plan'}
+      </button>
+      {state === 'manual' ? (
+        <label className="manual-copy">
+          Clipboard unavailable — select and copy:
+          <textarea readOnly value={text} rows={6} onFocus={(event) => event.currentTarget.select()} />
+        </label>
+      ) : null}
+    </div>
+  );
 }
 
 export type { ShiftWindowCandidate };

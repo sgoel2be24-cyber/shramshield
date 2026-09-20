@@ -344,6 +344,74 @@ button {
   -webkit-overflow-scrolling: touch;
 }
 
+.panel-head-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+
+button.ghost.small {
+  font-size: 0.78rem;
+}
+
+.copy-plan {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.manual-copy {
+  font-size: 0.72rem;
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.manual-copy textarea {
+  width: 100%;
+  background: var(--panel-2);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  padding: 8px;
+}
+
+@media print {
+  .controls,
+  .copy-plan,
+  button {
+    display: none !important;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .panel,
+  .metric,
+  .hour,
+  .comparison-card,
+  .verdict-hero {
+    background: #fff !important;
+    border-color: #999 !important;
+    color: #000 !important;
+    break-inside: avoid;
+  }
+}
+
 @media (max-width: 560px) {
   table.compare {
     font-size: 0.78rem;

@@ -72,3 +72,61 @@ export function firstDayHours(hours: readonly FetchedHour[]): FetchedHour[] {
   const day = first.timeIso.slice(0, 10);
   return hours.filter((hour) => hour.timeIso.slice(0, 10) === day);
 }
+
+/** Hours a supervisor can realistically staff; used to choose which day to plan. */
+const PLANNABLE_START_HOUR = 5;
+const PLANNABLE_END_HOUR = 20;
+
+/**
+ * Pick the day worth planning.
+ *
+ * `firstDayHours` is wrong for a live forecast fetched in the evening: the "first day" may hold
+ * only one or two remaining hours, which leaves the shift optimiser with nothing to fit and
+ * shows a judge a broken page. This returns the calendar day with the most staffable hours
+ * instead, breaking ties toward the earliest day. For the bundled data (full days) it is the
+ * same day `firstDayHours` returns.
+ */
+export function pickPlanningDay(hours: readonly FetchedHour[]): FetchedHour[] {
+  const byDay = new Map<string, FetchedHour[]>();
+  for (const hour of hours) {
+    const day = hour.timeIso.slice(0, 10);
+    const bucket = byDay.get(day);
+    if (bucket) bucket.push(hour);
+    else byDay.set(day, [hour]);
+  }
+
+  let best: FetchedHour[] = [];
+  let bestScore = -1;
+  for (const bucket of [...byDay.entries()].sort(([a], [b]) => a.localeCompare(b))) {
+    const score = bucket[1].filter((hour) => {
+      const startHour = Number.parseInt(hour.hourLabel.slice(0, 2), 10);
+      return startHour >= PLANNABLE_START_HOUR && startHour <= PLANNABLE_END_HOUR;
+    }).length;
+    const effective = score > 0 ? score : bucket[1].length / 100;
+    if (effective > bestScore) {
+      bestScore = effective;
+      best = bucket[1];
+    }
+  }
+  return best;
+}
+
+/** The date a scenario's planning day belongs to, for labelling bundled data honestly. */
+const MONTH_ABBREVIATIONS = [
+  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+];
+
+export function dayLabel(hours: readonly FetchedHour[]): string {
+  const first = hours[0];
+  if (!first) return 'no data';
+  // Formatted from the ISO string rather than via toLocaleDateString: locale month names differ
+  // between Node and browsers ("Sept" vs "Sep"), and a label that changes depending on where it
+  // renders is a bug waiting to be reported.
+  const [datePart] = first.timeIso.split('T');
+  if (!datePart) return first.timeIso;
+  const [year, month, day] = datePart.split('-');
+  const monthName = MONTH_ABBREVIATIONS[Number.parseInt(month ?? '', 10) - 1];
+  if (!year || !monthName || !day) return datePart;
+  return `${Number.parseInt(day, 10)} ${monthName} ${year}`;
+}
