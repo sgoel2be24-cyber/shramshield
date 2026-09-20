@@ -1,9 +1,10 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FALLBACK_CITIES, HOT_SCENARIOS, dayLabel, pickPlanningDay, scenarioBySlug, type FetchedHour } from './lib/fallback';
 import { optimiseShiftWindow, planShift } from './lib/plan';
 import { WORK_CATEGORIES, type WorkCategory } from './lib/standards';
 import { fetchLiveForecast, type LiveForecast } from './lib/live';
 import { EVIDENCE } from './lib/evidence';
+import { isCustomPlan, planFromSearch, planToSearch, type ShareablePlan } from './lib/share';
 import { PlanView } from './components/PlanView';
 import { ImpactStrip } from './components/ImpactStrip';
 import { WhatIfPanel, type WhatIfScenario } from './components/WhatIfPanel';
@@ -20,10 +21,11 @@ type LiveState =
   | { status: 'error'; message: string };
 
 export default function App() {
-  const [slug, setSlug] = useState('delhi');
-  const [category, setCategory] = useState<WorkCategory>('moderate');
-  const [acclimatised, setAcclimatised] = useState(true);
-  const [shiftLength, setShiftLength] = useState<number>(8);
+  const initialPlan = useMemo(() => planFromSearch(window.location.search), []);
+  const [slug, setSlug] = useState(initialPlan.slug);
+  const [category, setCategory] = useState<WorkCategory>(initialPlan.category);
+  const [acclimatised, setAcclimatised] = useState(initialPlan.acclimatised);
+  const [shiftLength, setShiftLength] = useState<number>(initialPlan.shiftLength);
   const [live, setLive] = useState<LiveState>({ status: 'idle' });
 
   const scenario = useMemo(() => scenarioBySlug(slug), [slug]);
@@ -95,6 +97,17 @@ export default function App() {
   }, [scenario.latitude, scenario.longitude]);
 
   const useBundled = useCallback(() => setLive({ status: 'idle' }), []);
+
+  // Keep the address bar carrying the current plan, so a bookmark or a shared link restores it.
+  // replaceState only — no history spam while a judge moves a slider.
+  useEffect(() => {
+    const plan: ShareablePlan = { slug, category, acclimatised, shiftLength };
+    const next = isCustomPlan(plan) ? planToSearch(plan) : window.location.pathname;
+    const current = window.location.pathname + window.location.search;
+    if (next !== current && next !== window.location.search) {
+      window.history.replaceState(null, '', next);
+    }
+  }, [slug, category, acclimatised, shiftLength]);
 
   return (
     <div className="app">
