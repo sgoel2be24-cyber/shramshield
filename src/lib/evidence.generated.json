@@ -1,0 +1,18 @@
+{
+  "generatedAt": "2026-09-20T05:55:25.077Z",
+  "generatedBy": "scripts/collect_evidence.mjs",
+  "tests": {
+    "total": 48,
+    "passed": 48,
+    "files": 4,
+    "command": "npm test"
+  },
+  "wetBulbValidation": {
+    "hoursChecked": 504,
+    "cities": 7,
+    "meanAbsDeviationC": 0.051,
+    "maxAbsDeviationC": 0.17,
+    "reference": "Open-Meteo 'wet_bulb_temperature_2m' — an independent implementation of the wet-bulb term",
+    "scope": "Validates the wet-bulb term only. The globe-temperature term is an estimate with no external check."
+  }
+}
