@@ -146,14 +146,14 @@ def build() -> pathlib.Path:
         ["Delhi", "42.6 °C", "30.9 °C", "897 min", "310 min, 240 min stopped"],
         ["Jaisalmer", "42.5 °C", "28.8 °C", "1,167 min", "447 min, no stop hours"],
     ], [0.24, 0.16, 0.15, 0.23, 0.30])
-    text(s, 0.7, 4.2, 12, 1.0, [
+    text(s, 0.7, 4.15, 12, 1.25, [
         "Air temperatures within 0.1 °C. Delhi's humidity costs the same crew 270 minutes of permitted work and",
         "pushes very heavy work into a genuine stop-work state. No dry-bulb alert can see that.",
     ], size=17, color=INK)
-    card(s, 0.7, 5.4, 5.7, 1.5)
-    text(s, 1.0, 5.6, 5.2, 1.2, ["52/52 engine tests pass", "tsc clean · strict + noUncheckedIndexedAccess"], size=14, color=GOOD, bold=True)
-    card(s, 6.9, 5.4, 5.7, 1.5)
-    text(s, 7.2, 5.6, 5.2, 1.2, [
+    card(s, 0.7, 5.5, 5.7, 1.45)
+    text(s, 1.0, 5.68, 5.2, 1.15, ["52/52 engine tests pass", "tsc clean · strict + noUncheckedIndexedAccess"], size=14, color=GOOD, bold=True)
+    card(s, 6.9, 5.5, 5.7, 1.45)
+    text(s, 7.2, 5.68, 5.2, 1.15, [
         "Wet bulb matches Open-Meteo's independent implementation",
         "0.051 °C mean / 0.170 °C worst case over 504 real hours",
     ], size=13, color=GOOD, bold=True)
