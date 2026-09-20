@@ -1,0 +1,51 @@
+[
+ {
+  "slug": "delhi",
+  "name": "Delhi",
+  "hours": 72,
+  "peakTempC": 35.2,
+  "peakAt": "14:00"
+ },
+ {
+  "slug": "chennai",
+  "name": "Chennai",
+  "hours": 72,
+  "peakTempC": 33.1,
+  "peakAt": "13:00"
+ },
+ {
+  "slug": "jaipur",
+  "name": "Jaipur",
+  "hours": 72,
+  "peakTempC": 34.9,
+  "peakAt": "14:00"
+ },
+ {
+  "slug": "ahmedabad",
+  "name": "Ahmedabad",
+  "hours": 72,
+  "peakTempC": 32.8,
+  "peakAt": "12:00"
+ },
+ {
+  "slug": "jaisalmer",
+  "name": "Jaisalmer",
+  "hours": 72,
+  "peakTempC": 36.9,
+  "peakAt": "14:00"
+ },
+ {
+  "slug": "bhubaneswar",
+  "name": "Bhubaneswar",
+  "hours": 72,
+  "peakTempC": 32.0,
+  "peakAt": "12:00"
+ },
+ {
+  "slug": "mumbai",
+  "name": "Mumbai",
+  "hours": 72,
+  "peakTempC": 30.0,
+  "peakAt": "12:00"
+ }
+]

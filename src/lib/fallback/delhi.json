@@ -1,0 +1,657 @@
+{
+ "slug": "delhi",
+ "name": "Delhi",
+ "latitude": 28.6139,
+ "longitude": 77.209,
+ "source": "Open-Meteo forecast API (/v1/forecast), timezone Asia/Kolkata, fetched 2026-09-20",
+ "hours": [
+  {
+   "timeIso": "2026-09-20T00:00",
+   "hourLabel": "00:00",
+   "dryBulbC": 27.1,
+   "relativeHumidity": 80,
+   "windMs": 0.4,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 24.3
+  },
+  {
+   "timeIso": "2026-09-20T01:00",
+   "hourLabel": "01:00",
+   "dryBulbC": 26.7,
+   "relativeHumidity": 82,
+   "windMs": 0.4,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 24.2
+  },
+  {
+   "timeIso": "2026-09-20T02:00",
+   "hourLabel": "02:00",
+   "dryBulbC": 26.2,
+   "relativeHumidity": 84,
+   "windMs": 0.45,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 24.0
+  },
+  {
+   "timeIso": "2026-09-20T03:00",
+   "hourLabel": "03:00",
+   "dryBulbC": 25.8,
+   "relativeHumidity": 86,
+   "windMs": 0.4,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.9
+  },
+  {
+   "timeIso": "2026-09-20T04:00",
+   "hourLabel": "04:00",
+   "dryBulbC": 25.4,
+   "relativeHumidity": 88,
+   "windMs": 0.18,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.8
+  },
+  {
+   "timeIso": "2026-09-20T05:00",
+   "hourLabel": "05:00",
+   "dryBulbC": 25.1,
+   "relativeHumidity": 89,
+   "windMs": 0.32,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.6
+  },
+  {
+   "timeIso": "2026-09-20T06:00",
+   "hourLabel": "06:00",
+   "dryBulbC": 24.9,
+   "relativeHumidity": 91,
+   "windMs": 0.74,
+   "solarWm2": 3.0,
+   "meteoWetBulbC": 23.7
+  },
+  {
+   "timeIso": "2026-09-20T07:00",
+   "hourLabel": "07:00",
+   "dryBulbC": 26.1,
+   "relativeHumidity": 87,
+   "windMs": 0.36,
+   "solarWm2": 94.0,
+   "meteoWetBulbC": 24.4
+  },
+  {
+   "timeIso": "2026-09-20T08:00",
+   "hourLabel": "08:00",
+   "dryBulbC": 27.9,
+   "relativeHumidity": 80,
+   "windMs": 0.4,
+   "solarWm2": 274.0,
+   "meteoWetBulbC": 25.0
+  },
+  {
+   "timeIso": "2026-09-20T09:00",
+   "hourLabel": "09:00",
+   "dryBulbC": 29.9,
+   "relativeHumidity": 68,
+   "windMs": 0.58,
+   "solarWm2": 467.0,
+   "meteoWetBulbC": 25.2
+  },
+  {
+   "timeIso": "2026-09-20T10:00",
+   "hourLabel": "10:00",
+   "dryBulbC": 31.3,
+   "relativeHumidity": 55,
+   "windMs": 0.89,
+   "solarWm2": 627.0,
+   "meteoWetBulbC": 24.3
+  },
+  {
+   "timeIso": "2026-09-20T11:00",
+   "hourLabel": "11:00",
+   "dryBulbC": 32.1,
+   "relativeHumidity": 52,
+   "windMs": 0.78,
+   "solarWm2": 702.0,
+   "meteoWetBulbC": 24.4
+  },
+  {
+   "timeIso": "2026-09-20T12:00",
+   "hourLabel": "12:00",
+   "dryBulbC": 32.7,
+   "relativeHumidity": 49,
+   "windMs": 0.54,
+   "solarWm2": 754.0,
+   "meteoWetBulbC": 24.5
+  },
+  {
+   "timeIso": "2026-09-20T13:00",
+   "hourLabel": "13:00",
+   "dryBulbC": 33.3,
+   "relativeHumidity": 48,
+   "windMs": 0.43,
+   "solarWm2": 758.0,
+   "meteoWetBulbC": 24.8
+  },
+  {
+   "timeIso": "2026-09-20T14:00",
+   "hourLabel": "14:00",
+   "dryBulbC": 33.6,
+   "relativeHumidity": 48,
+   "windMs": 0.32,
+   "solarWm2": 657.0,
+   "meteoWetBulbC": 24.9
+  },
+  {
+   "timeIso": "2026-09-20T15:00",
+   "hourLabel": "15:00",
+   "dryBulbC": 33.3,
+   "relativeHumidity": 47,
+   "windMs": 0.25,
+   "solarWm2": 515.0,
+   "meteoWetBulbC": 24.5
+  },
+  {
+   "timeIso": "2026-09-20T16:00",
+   "hourLabel": "16:00",
+   "dryBulbC": 32.7,
+   "relativeHumidity": 48,
+   "windMs": 1.1,
+   "solarWm2": 337.0,
+   "meteoWetBulbC": 24.3
+  },
+  {
+   "timeIso": "2026-09-20T17:00",
+   "hourLabel": "17:00",
+   "dryBulbC": 31.2,
+   "relativeHumidity": 55,
+   "windMs": 2.1,
+   "solarWm2": 158.0,
+   "meteoWetBulbC": 24.1
+  },
+  {
+   "timeIso": "2026-09-20T18:00",
+   "hourLabel": "18:00",
+   "dryBulbC": 29.9,
+   "relativeHumidity": 64,
+   "windMs": 1.01,
+   "solarWm2": 27.0,
+   "meteoWetBulbC": 24.5
+  },
+  {
+   "timeIso": "2026-09-20T19:00",
+   "hourLabel": "19:00",
+   "dryBulbC": 29.9,
+   "relativeHumidity": 66,
+   "windMs": 0.59,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 24.8
+  },
+  {
+   "timeIso": "2026-09-20T20:00",
+   "hourLabel": "20:00",
+   "dryBulbC": 29.6,
+   "relativeHumidity": 66,
+   "windMs": 0.47,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 24.6
+  },
+  {
+   "timeIso": "2026-09-20T21:00",
+   "hourLabel": "21:00",
+   "dryBulbC": 29.2,
+   "relativeHumidity": 68,
+   "windMs": 0.45,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 24.5
+  },
+  {
+   "timeIso": "2026-09-20T22:00",
+   "hourLabel": "22:00",
+   "dryBulbC": 28.7,
+   "relativeHumidity": 71,
+   "windMs": 0.25,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 24.6
+  },
+  {
+   "timeIso": "2026-09-20T23:00",
+   "hourLabel": "23:00",
+   "dryBulbC": 28.1,
+   "relativeHumidity": 74,
+   "windMs": 0.22,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 24.4
+  },
+  {
+   "timeIso": "2026-09-21T00:00",
+   "hourLabel": "00:00",
+   "dryBulbC": 27.6,
+   "relativeHumidity": 76,
+   "windMs": 0.4,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 24.3
+  },
+  {
+   "timeIso": "2026-09-21T01:00",
+   "hourLabel": "01:00",
+   "dryBulbC": 27.2,
+   "relativeHumidity": 78,
+   "windMs": 0.32,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 24.2
+  },
+  {
+   "timeIso": "2026-09-21T02:00",
+   "hourLabel": "02:00",
+   "dryBulbC": 26.9,
+   "relativeHumidity": 80,
+   "windMs": 0.3,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 24.1
+  },
+  {
+   "timeIso": "2026-09-21T03:00",
+   "hourLabel": "03:00",
+   "dryBulbC": 26.4,
+   "relativeHumidity": 82,
+   "windMs": 0.58,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.9
+  },
+  {
+   "timeIso": "2026-09-21T04:00",
+   "hourLabel": "04:00",
+   "dryBulbC": 26.1,
+   "relativeHumidity": 83,
+   "windMs": 0.63,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.7
+  },
+  {
+   "timeIso": "2026-09-21T05:00",
+   "hourLabel": "05:00",
+   "dryBulbC": 25.6,
+   "relativeHumidity": 84,
+   "windMs": 0.78,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.5
+  },
+  {
+   "timeIso": "2026-09-21T06:00",
+   "hourLabel": "06:00",
+   "dryBulbC": 25.3,
+   "relativeHumidity": 85,
+   "windMs": 0.84,
+   "solarWm2": 3.0,
+   "meteoWetBulbC": 23.3
+  },
+  {
+   "timeIso": "2026-09-21T07:00",
+   "hourLabel": "07:00",
+   "dryBulbC": 26.4,
+   "relativeHumidity": 79,
+   "windMs": 1.08,
+   "solarWm2": 92.0,
+   "meteoWetBulbC": 23.5
+  },
+  {
+   "timeIso": "2026-09-21T08:00",
+   "hourLabel": "08:00",
+   "dryBulbC": 28.0,
+   "relativeHumidity": 68,
+   "windMs": 1.01,
+   "solarWm2": 271.0,
+   "meteoWetBulbC": 23.5
+  },
+  {
+   "timeIso": "2026-09-21T09:00",
+   "hourLabel": "09:00",
+   "dryBulbC": 29.8,
+   "relativeHumidity": 60,
+   "windMs": 1.24,
+   "solarWm2": 463.0,
+   "meteoWetBulbC": 23.8
+  },
+  {
+   "timeIso": "2026-09-21T10:00",
+   "hourLabel": "10:00",
+   "dryBulbC": 31.3,
+   "relativeHumidity": 52,
+   "windMs": 1.41,
+   "solarWm2": 629.0,
+   "meteoWetBulbC": 23.8
+  },
+  {
+   "timeIso": "2026-09-21T11:00",
+   "hourLabel": "11:00",
+   "dryBulbC": 32.4,
+   "relativeHumidity": 48,
+   "windMs": 1.1,
+   "solarWm2": 744.0,
+   "meteoWetBulbC": 23.9
+  },
+  {
+   "timeIso": "2026-09-21T12:00",
+   "hourLabel": "12:00",
+   "dryBulbC": 33.3,
+   "relativeHumidity": 45,
+   "windMs": 0.99,
+   "solarWm2": 795.0,
+   "meteoWetBulbC": 24.1
+  },
+  {
+   "timeIso": "2026-09-21T13:00",
+   "hourLabel": "13:00",
+   "dryBulbC": 33.9,
+   "relativeHumidity": 43,
+   "windMs": 1.31,
+   "solarWm2": 778.0,
+   "meteoWetBulbC": 24.2
+  },
+  {
+   "timeIso": "2026-09-21T14:00",
+   "hourLabel": "14:00",
+   "dryBulbC": 34.3,
+   "relativeHumidity": 42,
+   "windMs": 1.69,
+   "solarWm2": 693.0,
+   "meteoWetBulbC": 24.4
+  },
+  {
+   "timeIso": "2026-09-21T15:00",
+   "hourLabel": "15:00",
+   "dryBulbC": 34.1,
+   "relativeHumidity": 43,
+   "windMs": 2.08,
+   "solarWm2": 548.0,
+   "meteoWetBulbC": 24.4
+  },
+  {
+   "timeIso": "2026-09-21T16:00",
+   "hourLabel": "16:00",
+   "dryBulbC": 33.5,
+   "relativeHumidity": 45,
+   "windMs": 2.35,
+   "solarWm2": 363.0,
+   "meteoWetBulbC": 24.2
+  },
+  {
+   "timeIso": "2026-09-21T17:00",
+   "hourLabel": "17:00",
+   "dryBulbC": 32.6,
+   "relativeHumidity": 48,
+   "windMs": 2.55,
+   "solarWm2": 171.0,
+   "meteoWetBulbC": 24.1
+  },
+  {
+   "timeIso": "2026-09-21T18:00",
+   "hourLabel": "18:00",
+   "dryBulbC": 31.4,
+   "relativeHumidity": 53,
+   "windMs": 1.97,
+   "solarWm2": 28.0,
+   "meteoWetBulbC": 23.9
+  },
+  {
+   "timeIso": "2026-09-21T19:00",
+   "hourLabel": "19:00",
+   "dryBulbC": 30.5,
+   "relativeHumidity": 58,
+   "windMs": 1.39,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 24.1
+  },
+  {
+   "timeIso": "2026-09-21T20:00",
+   "hourLabel": "20:00",
+   "dryBulbC": 29.7,
+   "relativeHumidity": 65,
+   "windMs": 1.04,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 24.4
+  },
+  {
+   "timeIso": "2026-09-21T21:00",
+   "hourLabel": "21:00",
+   "dryBulbC": 29.1,
+   "relativeHumidity": 67,
+   "windMs": 1.0,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 24.3
+  },
+  {
+   "timeIso": "2026-09-21T22:00",
+   "hourLabel": "22:00",
+   "dryBulbC": 28.4,
+   "relativeHumidity": 70,
+   "windMs": 1.13,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 24.0
+  },
+  {
+   "timeIso": "2026-09-21T23:00",
+   "hourLabel": "23:00",
+   "dryBulbC": 27.7,
+   "relativeHumidity": 73,
+   "windMs": 1.11,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.8
+  },
+  {
+   "timeIso": "2026-09-22T00:00",
+   "hourLabel": "00:00",
+   "dryBulbC": 27.1,
+   "relativeHumidity": 76,
+   "windMs": 1.05,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.7
+  },
+  {
+   "timeIso": "2026-09-22T01:00",
+   "hourLabel": "01:00",
+   "dryBulbC": 26.7,
+   "relativeHumidity": 77,
+   "windMs": 1.0,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.5
+  },
+  {
+   "timeIso": "2026-09-22T02:00",
+   "hourLabel": "02:00",
+   "dryBulbC": 26.4,
+   "relativeHumidity": 78,
+   "windMs": 0.92,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.5
+  },
+  {
+   "timeIso": "2026-09-22T03:00",
+   "hourLabel": "03:00",
+   "dryBulbC": 26.1,
+   "relativeHumidity": 79,
+   "windMs": 0.96,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.3
+  },
+  {
+   "timeIso": "2026-09-22T04:00",
+   "hourLabel": "04:00",
+   "dryBulbC": 25.9,
+   "relativeHumidity": 79,
+   "windMs": 1.15,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.0
+  },
+  {
+   "timeIso": "2026-09-22T05:00",
+   "hourLabel": "05:00",
+   "dryBulbC": 25.6,
+   "relativeHumidity": 80,
+   "windMs": 1.26,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 22.8
+  },
+  {
+   "timeIso": "2026-09-22T06:00",
+   "hourLabel": "06:00",
+   "dryBulbC": 25.4,
+   "relativeHumidity": 80,
+   "windMs": 1.41,
+   "solarWm2": 3.0,
+   "meteoWetBulbC": 22.7
+  },
+  {
+   "timeIso": "2026-09-22T07:00",
+   "hourLabel": "07:00",
+   "dryBulbC": 26.5,
+   "relativeHumidity": 75,
+   "windMs": 1.57,
+   "solarWm2": 92.0,
+   "meteoWetBulbC": 23.1
+  },
+  {
+   "timeIso": "2026-09-22T08:00",
+   "hourLabel": "08:00",
+   "dryBulbC": 28.2,
+   "relativeHumidity": 69,
+   "windMs": 1.46,
+   "solarWm2": 271.0,
+   "meteoWetBulbC": 23.7
+  },
+  {
+   "timeIso": "2026-09-22T09:00",
+   "hourLabel": "09:00",
+   "dryBulbC": 30.3,
+   "relativeHumidity": 59,
+   "windMs": 1.56,
+   "solarWm2": 464.0,
+   "meteoWetBulbC": 24.1
+  },
+  {
+   "timeIso": "2026-09-22T10:00",
+   "hourLabel": "10:00",
+   "dryBulbC": 32.0,
+   "relativeHumidity": 51,
+   "windMs": 1.66,
+   "solarWm2": 630.0,
+   "meteoWetBulbC": 24.2
+  },
+  {
+   "timeIso": "2026-09-22T11:00",
+   "hourLabel": "11:00",
+   "dryBulbC": 33.3,
+   "relativeHumidity": 47,
+   "windMs": 1.54,
+   "solarWm2": 746.0,
+   "meteoWetBulbC": 24.5
+  },
+  {
+   "timeIso": "2026-09-22T12:00",
+   "hourLabel": "12:00",
+   "dryBulbC": 34.3,
+   "relativeHumidity": 44,
+   "windMs": 1.7,
+   "solarWm2": 798.0,
+   "meteoWetBulbC": 24.7
+  },
+  {
+   "timeIso": "2026-09-22T13:00",
+   "hourLabel": "13:00",
+   "dryBulbC": 35.0,
+   "relativeHumidity": 41,
+   "windMs": 2.11,
+   "solarWm2": 782.0,
+   "meteoWetBulbC": 24.6
+  },
+  {
+   "timeIso": "2026-09-22T14:00",
+   "hourLabel": "14:00",
+   "dryBulbC": 35.2,
+   "relativeHumidity": 38,
+   "windMs": 2.49,
+   "solarWm2": 691.0,
+   "meteoWetBulbC": 24.3
+  },
+  {
+   "timeIso": "2026-09-22T15:00",
+   "hourLabel": "15:00",
+   "dryBulbC": 34.9,
+   "relativeHumidity": 39,
+   "windMs": 2.48,
+   "solarWm2": 525.0,
+   "meteoWetBulbC": 24.1
+  },
+  {
+   "timeIso": "2026-09-22T16:00",
+   "hourLabel": "16:00",
+   "dryBulbC": 34.4,
+   "relativeHumidity": 39,
+   "windMs": 2.7,
+   "solarWm2": 365.0,
+   "meteoWetBulbC": 23.7
+  },
+  {
+   "timeIso": "2026-09-22T17:00",
+   "hourLabel": "17:00",
+   "dryBulbC": 33.2,
+   "relativeHumidity": 42,
+   "windMs": 3.02,
+   "solarWm2": 177.0,
+   "meteoWetBulbC": 23.6
+  },
+  {
+   "timeIso": "2026-09-22T18:00",
+   "hourLabel": "18:00",
+   "dryBulbC": 31.8,
+   "relativeHumidity": 48,
+   "windMs": 2.65,
+   "solarWm2": 28.0,
+   "meteoWetBulbC": 23.5
+  },
+  {
+   "timeIso": "2026-09-22T19:00",
+   "hourLabel": "19:00",
+   "dryBulbC": 30.9,
+   "relativeHumidity": 53,
+   "windMs": 2.26,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.5
+  },
+  {
+   "timeIso": "2026-09-22T20:00",
+   "hourLabel": "20:00",
+   "dryBulbC": 30.0,
+   "relativeHumidity": 57,
+   "windMs": 1.91,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.5
+  },
+  {
+   "timeIso": "2026-09-22T21:00",
+   "hourLabel": "21:00",
+   "dryBulbC": 29.1,
+   "relativeHumidity": 62,
+   "windMs": 1.45,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.4
+  },
+  {
+   "timeIso": "2026-09-22T22:00",
+   "hourLabel": "22:00",
+   "dryBulbC": 28.1,
+   "relativeHumidity": 68,
+   "windMs": 0.97,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.4
+  },
+  {
+   "timeIso": "2026-09-22T23:00",
+   "hourLabel": "23:00",
+   "dryBulbC": 27.6,
+   "relativeHumidity": 70,
+   "windMs": 0.25,
+   "solarWm2": 0.0,
+   "meteoWetBulbC": 23.4
+  }
+ ]
+}
