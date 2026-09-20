@@ -1,16 +1,23 @@
 /**
  * Heat-stress standards tables and lookups — ShramShield.
  *
- * Source: ACGIH Threshold Limit Values (TLVs) screening criteria for heat stress exposure,
- * reproduced in the BC Government / WorkSafeBC "Hot Environments - Control Measures"
- * fact sheet, Table 1 (adapted from 2016 TLVs and BEIs, ACGIH, p. 218).
+ * Sources, stated precisely because a provenance claim that mixes two documents is worse than
+ * no provenance claim at all:
+ *
+ *  1. The four work-allocation bands (light / moderate / heavy / very heavy) are the ACGIH TLV
+ *     screening criteria for heat stress exposure, reproduced verbatim from the BC Government /
+ *     WorkSafeBC "Hot Environments - Control Measures" fact sheet, Table 1 (adapted from
+ *     2016 TLVs and BEIs, ACGIH, p. 218).
+ *  2. The `rest` column (32.5 C acclimatised / 30.0 C unacclimatised, flat across every band)
+ *     is NOT in that table — it comes from ACGIH's resting-metabolic-rate screening values as
+ *     published in secondary heat-stress references. It is marked as such below rather than
+ *     presented as part of the verbatim table.
  *
  * Values are WBGT in degrees C for an 8-hour work day, 5-day week, conventional breaks,
  * standard work clothing, by metabolic-rate category and by the allocation of work in the
  * work/rest cycle. A second set of (lower) values applies to unacclimatised workers.
  *
- * We record the table verbatim here rather than "roughly" — a standards engine that
- * paraphrases its standard is worse than useless. Limits tested in standards.test.ts.
+ * Limits are asserted in standards.test.ts so the transcription cannot drift.
  */
 
 export type WorkCategory = 'rest' | 'light' | 'moderate' | 'heavy' | 'veryHeavy';
@@ -73,7 +80,11 @@ export const ALLOCATION_BANDS: readonly AllocationBand[] = [
   { workFraction: 0.125, label: '0-25% work' },
 ] as const;
 
-/** Acclimatised worker TLV screening values (WBGT degrees C). Rows: band. Columns: category. */
+/**
+ * Acclimatised worker TLV screening values (WBGT degrees C). Rows: band. Columns: category.
+ * The `rest` entries are the secondary-source resting values described in the file header; the
+ * other columns are the verbatim WorkSafeBC/ACGIH table.
+ */
 export const ACCLIMATISED_LIMITS: Record<string, Record<WorkCategory, number | null>> = {
   '75-100% work': { rest: 32.5, light: 31.0, moderate: 28.0, heavy: null, veryHeavy: null },
   '50-75% work': { rest: 32.5, light: 31.0, moderate: 29.0, heavy: 27.5, veryHeavy: null },
@@ -81,7 +92,8 @@ export const ACCLIMATISED_LIMITS: Record<string, Record<WorkCategory, number | n
   '0-25% work': { rest: 32.5, light: 32.5, moderate: 31.5, heavy: 30.5, veryHeavy: 30.0 },
 };
 
-/** Unacclimatised worker action limits (WBGT degrees C). Rows: band. Columns: category. */
+/** Unacclimatised worker action limits (WBGT degrees C). Rows: band. Columns: category.
+ * The `rest` entries are the secondary-source resting values described in the file header. */
 export const UNACCLIMATISED_LIMITS: Record<string, Record<WorkCategory, number | null>> = {
   '75-100% work': { rest: 30.0, light: 28.0, moderate: 25.0, heavy: null, veryHeavy: null },
   '50-75% work': { rest: 30.0, light: 28.5, moderate: 26.0, heavy: 24.0, veryHeavy: null },

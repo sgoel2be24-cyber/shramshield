@@ -84,8 +84,11 @@ Hand-written TypeScript, framework-free (`src/lib/`), unit-tested, no heat-stres
   to air temperature at zero sunlight (a tested physical property, not a fudge).
 - **`standards.ts`** — the ACGIH TLV screening matrix (2016 TLVs and BEIs, p. 218) reproduced
   **verbatim** for acclimatised and unacclimatised workers, plus metabolic-rate categories
-  (115/180/300/415/520 W) and OSHA-based drinking-water guidance. A standards engine that
-  paraphrases its standard is worse than useless, so the tables are recorded as published.
+  (115/180/300/415/520 W) and OSHA-based drinking-water guidance. One documented exception: the
+  resting-metabolic-rate column comes from secondary ACGIH references (the fact-sheet table has no
+  rest column), and the code says so instead of implying the whole matrix came from one page. A
+  standards engine that paraphrases its standard is worse than useless, so the tables are recorded
+  as published.
 - **`plan.ts`** — per-hour work/rest allocation, water, stop-work flags, and the
   `optimiseShiftWindow` search (candidate starts 05:00–14:00; night work is explicitly out of scope).
 - **`live.ts` / `fallback.ts`** — live Open-Meteo fetch, with **real bundled data** for seven Indian

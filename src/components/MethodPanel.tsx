@@ -45,7 +45,9 @@ export function MethodPanel() {
             <li>
               Work/rest allocation and screening WBGT values are the ACGIH TLV screening criteria
               (2016 TLVs and BEIs, p. 218), reproduced verbatim in the engine rather than paraphrased,
-              with separate tables for acclimatised and unacclimatised workers.
+              with separate tables for acclimatised and unacclimatised workers. One exception is
+              documented in the code rather than glossed over: the resting-metabolic-rate column comes
+              from secondary ACGIH references, not from that table.
             </li>
             <li>ISO 7243 supplies the WBGT definition and the outdoor weighting used here.</li>
             <li>
