@@ -489,9 +489,16 @@ button.ghost.small {
 }
 
 @media print {
+  /* A wall sheet is for the crew working today. Anything that shows a *different* plan, or
+     argues the case for the tool, is a hazard on a printed sheet — the what-if alternatives
+     especially, because they look exactly like the real plan. The disclaimer stays. */
   .controls,
   .copy-plan,
-  button {
+  button,
+  .panel[aria-labelledby='whatif-heading'],
+  .panel[aria-labelledby='impact-heading'],
+  .panel[aria-labelledby='manual-heading'],
+  .panel[aria-labelledby='method-heading'] {
     display: none !important;
   }
 
@@ -846,4 +853,20 @@ ul.categories li {
   font-size: 0.8rem;
   border-top: 1px solid var(--line);
   padding-top: 14px;
+}
+
+.error-panel {
+  max-width: 640px;
+  margin: 48px auto;
+}
+
+.error-panel h2 {
+  margin-top: 0;
+}
+
+.error-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 14px 0;
 }
