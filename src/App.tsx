@@ -27,6 +27,7 @@ export default function App() {
   const [acclimatised, setAcclimatised] = useState(initialPlan.acclimatised);
   const [shiftLength, setShiftLength] = useState<number>(initialPlan.shiftLength);
   const [live, setLive] = useState<LiveState>({ status: 'idle' });
+  const [planMs, setPlanMs] = useState<number | null>(null);
 
   const scenario = useMemo(() => scenarioBySlug(slug), [slug]);
 
@@ -35,7 +36,12 @@ export default function App() {
   const liveHours = live.status === 'ready' ? pickPlanningDay(live.forecast.hours) : null;
   const hours: FetchedHour[] = liveHours && liveHours.length > 0 ? liveHours : bundledHours;
 
-  const plan = useMemo(() => planShift(hours, category, acclimatised), [hours, category, acclimatised]);
+  const plan = useMemo(() => {
+    const started = performance.now();
+    const result = planShift(hours, category, acclimatised);
+    setPlanMs(Math.round((performance.now() - started) * 10) / 10);
+    return result;
+  }, [hours, category, acclimatised]);
   const windowResult = useMemo(
     () => optimiseShiftWindow(hours, category, acclimatised, shiftLength),
     [hours, category, acclimatised, shiftLength],
@@ -127,6 +133,9 @@ export default function App() {
           <span className="badge badge-good">
             {EVIDENCE.tests.passed}/{EVIDENCE.tests.total} tests green
           </span>
+          {planMs !== null ? (
+            <span className="badge badge-good">plan computed in {planMs} ms</span>
+          ) : null}
         </div>
       </header>
 
