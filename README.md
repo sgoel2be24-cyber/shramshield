@@ -39,11 +39,11 @@ Pick a location and a work rate and it produces, for the actual forecast:
 | Output | Example (Delhi, moderate work, acclimatised crew) |
 |---|---|
 | Recommended shift window | **05:00 – 13:00** instead of the default 09:00 rota |
-| Minutes the shift spends above the limit | **60 min** at 05:00 vs **240 min** at 09:00 |
+| Minutes above the safe limit (8 h window) | **60 min** starting 05:00 vs **240 min** on the default 09:00 rota — the same metric applied to two candidate windows |
 | Peak WBGT vs the limit for that work rate | 28.7 °C vs 28.0 °C — breached |
 | Work / rest split per hour | 53 min work / 7 min rest in the cool hours, down to **8 min work / 52 min rest** at noon |
 | Water for the crew | litres per worker for that window |
-| Stop-work hours | listed explicitly, e.g. `11:00, 12:00, 13:00, 14:00` for very heavy work on a real May heatwave day |
+| Stop-work hours (full-day plan) | listed explicitly — `11:00, 12:00, 13:00, 14:00` for very heavy work on a real May 2025 Delhi heatwave day (240 min stopped) |
 | Hand-off | **Copy plan** produces the whole plan as text (WhatsApp-ready), and the page prints as a one-page wall sheet |
 
 ### The demo beat that matters
@@ -119,17 +119,30 @@ applied; night-shift planning is out of scope. These are stated in the app's met
 
 ## Build provenance (HACKDAY 1.0 window, 20 Sep 2026)
 
-All commits are inside the 09:00–17:00 window:
+All commits are inside the 09:00–17:00 window and all are authored by the entrant:
 
 ```
-732462a 11:16 scaffold: fresh vite+react+ts repo for HACKDAY 1.0 (ShramShield)
-7954773 11:23 engine: WBGT (Stull wet bulb + estimated globe), ACGIH/ISO work-rest tables,
-              shift-window optimiser, real Open-Meteo data, 48 tests
-fc3f1a1 11:48 ui: shift plan, hour timeline, site-conditions panel, method+evidence panel;
-              live Open-Meteo fetch with bundled fallback
+732462a 11:16  scaffold: fresh vite+react+ts repo for HACKDAY 1.0 (ShramShield)
+7954773 11:23  engine: WBGT (Stull wet-bulb + estimated globe), ACGIH/ISO work-rest tables,
+               shift-window optimiser, real Open-Meteo data, tests
+fc3f1a1 11:48  ui: shift plan, hour timeline, site-conditions panel, method+evidence panel;
+               live Open-Meteo fetch with bundled fallback
+b632a43 11:52  docs+deck: README mapped to the rubric with measured evidence, submission copy, deck
+6bf2ab6 11:52  deck: fix slide-4 text overflow found by the fit check
+ecefe12 11:54  ui: mobile table overflow found on a 390px viewport, wrapping table in a scroll container
+c7c236a 11:55  fix(verify): vite preview binds IPv6-only, force IPv4 for the serve smoke test
+3be2982 13:31  fix: plan the day a live forecast actually covers; deterministic date labels;
+               add copyable plan text + print styles
+8849cff 13:32  docs+deck: sync test counts and hand-off artifact after the second review pass
+2fdd3d9 13:34  docs: state the resting-metabolic-rate column's separate source
+772b1f6 13:34  chore: drop unreferenced scaffold assets
+0f44824 13:48  audit: Kimi K3 adversarial audit — findings + repro (see AUDIT.md)
 ```
 
-Run `git log --format="%h %ci %s"` for the full in-window trail.
+Full trail: `git log --format="%h %ci %s"`. The repo was created in this window, no prior project was
+reused, and several AI coding tools were used during the build (explicitly permitted by the event
+rules) — every commit is authored by the entrant. See `AUDIT.md` for the pre-submission adversarial
+audit and its resolutions.
 
 ## Run it locally
 
