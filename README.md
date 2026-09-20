@@ -1,32 +1,162 @@
-# React + TypeScript + Vite
+# ShramShield — heat-safety shift plans for outdoor workers
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+**Live:** https://shramshield.vercel.app · **Repo:** https://github.com/sgoel2be24-cyber/shramshield
+**Built for:** HACKDAY 1.0 (DECODEP community), 20 September 2026 — open innovation, theme *Tech for a Better Tomorrow*, 8-hour build window.
 
-Currently, two official plugins are available:
+ShramShield turns a weather forecast into an **enforceable heat-safety shift plan** for people who
+work outdoors: when to start the shift, how many minutes to work and rest each hour, how much water
+the crew needs, and which hours must stop entirely. Every number comes from published standards
+(ISO 7243 WBGT, ACGIH TLV screening criteria) computed by a hand-written engine in the browser —
+no black box, no API key, nothing sent anywhere.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## The problem
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+India's official heat alerts are built on **air temperature alone**, and the metric that actually
+predicts heat strain — WBGT — combines temperature with humidity and solar load. In 2025 that gap
+was documented in deaths, not theory:
 
-## Expanding the Oxlint configuration
+- **At least 84 heatstroke deaths** were recorded across India between February and July 2025 in a
+  news-based analysis, with the NCDC separately reporting **7,192 suspected heatstroke cases but
+  only 14 confirmed deaths** (Mar 1–Jun 24, obtained under RTI) — the toll is undercounted.
+  Most victims were **elderly people, outdoor workers and daily-wage labourers**.
+  — [HeatWatch, *Struck by Heat* (2025)](https://www.heatwatch.in/report/heatwatchs-2025-report-reveals-undercounted-heatstroke-deaths-and-urgent-gaps-in-public-health-response/) · [The Hindu](https://www.thehindu.com/sci-tech/health/india-recorded-at-least-84-heatstroke-deaths-in-2025-summer-study/article69964987.ece)
+- The same report documents fatalities on **days when no heat alert was issued**, and calls for
+  alerts that "move beyond dry bulb temperature warnings and adopt **WBGT** and Heat Index
+  measures", plus **enforceable work-rest cycles**. Outdoor and informal workers are **over 90% of
+  India's workforce**, working peak sun without mandatory breaks, shade or cooling access.
+- A plea on the same issue is pending before the Supreme Court (notice issued July 2026,
+  CJI Gavai bench) — [LiveLaw](https://www.livelaw.in/top-stories/supreme-court-plea-prevent-heatwave-deaths-298578).
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+A supervisor does not need another thermometer readout. They need to know **what to do with today's
+shift**, in the units a labour department understands.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## What it does
+
+Pick a location and a work rate and it produces, for the actual forecast:
+
+| Output | Example (Delhi, moderate work, acclimatised crew) |
+|---|---|
+| Recommended shift window | **05:00 – 13:00** instead of the default 09:00 rota |
+| Minutes the shift spends above the limit | **60 min** at 05:00 vs **240 min** at 09:00 |
+| Peak WBGT vs the limit for that work rate | 28.7 °C vs 28.0 °C — breached |
+| Work / rest split per hour | 53 min work / 7 min rest in the cool hours, down to **8 min work / 52 min rest** at noon |
+| Water for the crew | litres per worker for that window |
+| Stop-work hours | listed explicitly, e.g. `11:00, 12:00, 13:00, 14:00` for very heavy work on a real May heatwave day |
+
+### The demo beat that matters
+
+Two **real** days from Open-Meteo's ERA5 archive, 20 May 2025:
+
+| | Delhi | Jaisalmer |
+|---|---|---|
+| Peak air temperature | 42.6 °C | 42.5 °C |
+| Peak WBGT | **30.9 °C** | **28.8 °C** |
+| Work permitted (moderate, acclimatised, 24 h) | 897 min | 1,167 min |
+| Work permitted (very heavy) | 310 min, with **240 min stopped** | 447 min, no stop hours |
+
+Air temperatures within 0.1 °C of each other. Delhi's humidity costs **270 minutes** of permitted
+work for the same crew, and pushes very heavy work into a genuine stop-work state. **That
+difference is invisible to any alert built on temperature alone.** These numbers are asserted in
+`src/lib/scenario-report.test.ts`, so this README cannot drift from the engine.
+
+## Why this is not a calculator
+
+Existing tools — heatsafe.app, agentcalc, commercial WBGT monitoring services — either need a
+**WBGT meter or manual site readings**, or are paid hardware platforms. ShramShield:
+
+1. **Computes WBGT from a free, keyless forecast** (no instrument, no account, no key), and
+2. **Optimises the shift window** — it searches candidate start times and ranks them by minutes the
+   crew would spend above the safe limit, then peak WBGT, then earliest start. This is the decision
+   a supervisor actually has to make, and it is the part that is ours.
+
+The ACGIH/Bernard-style work/rest logic is standard; the search over the day is the contribution.
+
+## How the engine works
+
+Hand-written TypeScript, framework-free (`src/lib/`), unit-tested, no heat-stress library:
+
+- **`wbgt.ts`** — `WBGT = 0.7·Tnwb + 0.2·Tg + 0.1·Tdb` (ISO 7243 outdoor weighting).
+  Natural wet bulb is approximated by the **psychrometric wet bulb (Stull 2011** closed form);
+  globe temperature is **estimated** from shortwave radiation and wind with a model that collapses
+  to air temperature at zero sunlight (a tested physical property, not a fudge).
+- **`standards.ts`** — the ACGIH TLV screening matrix (2016 TLVs and BEIs, p. 218) reproduced
+  **verbatim** for acclimatised and unacclimatised workers, plus metabolic-rate categories
+  (115/180/300/415/520 W) and OSHA-based drinking-water guidance. A standards engine that
+  paraphrases its standard is worse than useless, so the tables are recorded as published.
+- **`plan.ts`** — per-hour work/rest allocation, water, stop-work flags, and the
+  `optimiseShiftWindow` search (candidate starts 05:00–14:00; night work is explicitly out of scope).
+- **`live.ts` / `fallback.ts`** — live Open-Meteo fetch, with **real bundled data** for seven Indian
+  cities and two archived heatwave days, so the demo works with **no network at all**.
+
+## Measured evidence (not adjectives)
+
+| Claim | Measurement | How |
+|---|---|---|
+| Engine correctness | **52/52 tests pass** | `npm test` — the same count is rendered in the app badge, regenerated by `scripts/collect_evidence.mjs` |
+| Wet-bulb implementation is right | mean absolute deviation **0.051 °C**, worst case **0.170 °C** over **504 real forecast hours** in 7 cities | compared against Open-Meteo's own independent `wet_bulb_temperature_2m` |
+| Type safety | `tsc -b` clean under `strict` + `noUncheckedIndexedAccess` | `npm run typecheck` |
+| Deployed artifact is the built app | marker text + hashed bundle asserted on the served build | `python3 scripts/verify_serve.py` |
+
+**What is *not* proven:** the globe-temperature term is our model, with no external measurement to
+check it against; clothing adjustment (heavy PPE adds several degrees of effective WBGT) is not
+applied; night-shift planning is out of scope. These are stated in the app's method panel too.
+
+## Judging rubric mapping
+
+| Criterion | Where it is demonstrated |
+|---|---|
+| **Problem & impact (25)** | Ceiling figures cited above; the "same thermometer, different danger" comparison; each output is an *action* (start time, minutes to work, litres, stop hours), not a readout. |
+| **Innovation (20)** | Forecast→plan without an instrument; the shift-window optimiser; auditable standards-based reasoning instead of an LLM guess. |
+| **Technical (25)** | Own WBGT engine + standards tables + optimiser in framework-free modules; 52 tests pinning table values, formula properties and demo narrative; external validation of the wet-bulb term. |
+| **UX (15)** | One screen: controls → verdict → hour-by-hour timeline → site-conditions panel → method/evidence panel. Colour-coded risk, green highlight for the recommended shift, live region for the verdict, `prefers-reduced-motion` respected, mobile layout. |
+| **Feasibility (15)** | Static site + one keyless API with a bundled offline fallback; no server, no key, no quota; the same standards apply to any country; ship-able to any labour department or contractor as-is. |
+
+## Build provenance (HACKDAY 1.0 window, 20 Sep 2026)
+
+All commits are inside the 09:00–17:00 window:
+
+```
+732462a 11:16 scaffold: fresh vite+react+ts repo for HACKDAY 1.0 (ShramShield)
+7954773 11:23 engine: WBGT (Stull wet bulb + estimated globe), ACGIH/ISO work-rest tables,
+              shift-window optimiser, real Open-Meteo data, 48 tests
+fc3f1a1 11:48 ui: shift plan, hour timeline, site-conditions panel, method+evidence panel;
+              live Open-Meteo fetch with bundled fallback
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Run `git log --format="%h %ci %s"` for the full in-window trail.
+
+## Run it locally
+
+```bash
+npm install
+npm test            # engine + validation + scenario-report tests
+npm run typecheck
+npm run build && npm run preview
+python3 scripts/verify_serve.py     # serve smoke test
+
+# regenerate the bundled real data or the evidence numbers
+python3 scripts/fetch_fallback_data.py    # today's forecast, 7 cities
+python3 scripts/fetch_hot_season.py       # real May 2025 heatwave window
+node scripts/collect_evidence.mjs         # re-measures tests + wet-bulb deviation
+```
+
+## Data and standards
+
+- **Weather:** [Open-Meteo](https://open-meteo.com) forecast API and ERA5 historical archive —
+  keyless, non-commercial/free licence, no account. Data is fetched either by the browser (live mode)
+  or by the scripts above (bundled mode).
+- **Heat strain:** ISO 7243 (WBGT) and the ACGIH TLV screening criteria for heat stress
+  (2016 TLVs and BEIs, p. 218), as reproduced in the BC/WorkSafeBC *Hot Environments — Control
+  Measures* fact sheet.
+- **Water guidance:** OSHA *Water. Rest. Shade.* campaign baseline, scaled by metabolic rate and
+  heat load.
+
+## Limits and disclaimer
+
+ShramShield is an **advisory planning tool**. It does not replace a site heat policy, a medical
+opinion, or the law. Globe temperature and natural wet-bulb temperature are modelled, not measured;
+allocation bands are applied at their midpoints; clothing adjustment is not applied. Where the
+standard publishes no limit for a combination (heavy and very heavy continuous work), the engine
+says so and steps down to the next published band rather than inventing a number.
