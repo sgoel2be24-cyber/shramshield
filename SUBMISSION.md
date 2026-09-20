@@ -23,7 +23,7 @@ reading costs the same crew 270 minutes of permitted work. Dry-bulb alerts canno
 Everything runs client-side with no API key and no server: real bundled data for seven Indian cities
 plus two heatwave archive days means the demo works offline, and a live forecast is an optional
 upgrade. The plan can be copied as text for a crew hand-off (WhatsApp-ready) or printed as a wall
-sheet. Verified: 69/69 engine tests, and the wet-bulb term agrees with Open-Meteo's independent
+sheet. Verified: 73/73 engine tests, and the wet-bulb term agrees with Open-Meteo's independent
 implementation to a 0.051 °C mean / 0.170 °C worst-case deviation across 504 real forecast hours.
 
 ## Links
@@ -44,9 +44,12 @@ All commits fall inside the 09:00–17:00 IST window on 20 September 2026
 ## Anything we want judges to open first
 
 1. The live link, default view (Delhi, moderate work) — the verdict line at the top.
-2. Switch **Dataset → Delhi heatwave (May 2025)** and **Work rate → Very heavy work**: the app reports
-   four hours that must stop entirely, a real 2025 heatwave day, not a synthetic one.
-3. Scroll to **"Same thermometer, different danger"** — the two-city comparison.
+2. Switch **Dataset → Delhi heatwave (May 2025)** and **Work rate → Very heavy work**: the banner
+   names the hours inside the recommended shift that must stop (11:00, 12:00), and the timeline
+   below shows four stop-work hours across the whole day — a real 2025 heatwave day, not a
+   synthetic one.
+3. Scroll to **"Same thermometer, different danger"** — the two-city comparison — and to
+   **"Would today be different?"**, which re-plans the same day three ways.
 4. Scroll to **"How this is computed, and what we have not proven"** — standards, assumptions and the
    measured evidence, including what is *not* validated.
 5. Press **Copy plan** (top-right of the plan panel) to see the hand-off artifact a supervisor would
