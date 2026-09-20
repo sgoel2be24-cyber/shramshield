@@ -27,21 +27,34 @@ export default function App() {
   const [acclimatised, setAcclimatised] = useState(initialPlan.acclimatised);
   const [shiftLength, setShiftLength] = useState<number>(initialPlan.shiftLength);
   const [live, setLive] = useState<LiveState>({ status: 'idle' });
-  const [planMs, setPlanMs] = useState<number | null>(null);
 
   const scenario = useMemo(() => scenarioBySlug(slug), [slug]);
 
   const bundledHours = useMemo(() => pickPlanningDay(scenario.hours), [scenario]);
 
-  const liveHours = live.status === 'ready' ? pickPlanningDay(live.forecast.hours) : null;
-  const hours: FetchedHour[] = liveHours && liveHours.length > 0 ? liveHours : bundledHours;
+  // Memoised on the live forecast itself: pickPlanningDay builds fresh arrays, so computing it
+  // during render gave `hours` a new identity every render, which defeated every useMemo below
+  // and — once the timing badge started setting state from one of them — looped the render.
+  const liveHours = useMemo(
+    () => (live.status === 'ready' ? pickPlanningDay(live.forecast.hours) : null),
+    [live],
+  );
+  const hours: FetchedHour[] = useMemo(
+    () => (liveHours && liveHours.length > 0 ? liveHours : bundledHours),
+    [liveHours, bundledHours],
+  );
 
-  const plan = useMemo(() => {
+  // The badge measures the real computation, so the timing rides along in the memo's value and
+  // is derived during render. It must not be state written from inside useMemo: that is a
+  // render-phase update, and with a fresh `hours` array each render it loops until React
+  // throws "too many re-renders".
+  const planned = useMemo(() => {
     const started = performance.now();
     const result = planShift(hours, category, acclimatised);
-    setPlanMs(Math.round((performance.now() - started) * 10) / 10);
-    return result;
+    return { result, ms: Math.round((performance.now() - started) * 10) / 10 };
   }, [hours, category, acclimatised]);
+  const plan = planned.result;
+  const planMs = planned.ms;
   const windowResult = useMemo(
     () => optimiseShiftWindow(hours, category, acclimatised, shiftLength),
     [hours, category, acclimatised, shiftLength],
@@ -133,9 +146,7 @@ export default function App() {
           <span className="badge badge-good">
             {EVIDENCE.tests.passed}/{EVIDENCE.tests.total} tests green
           </span>
-          {planMs !== null ? (
-            <span className="badge badge-good">plan computed in {planMs} ms</span>
-          ) : null}
+          <span className="badge badge-good">plan computed in {planMs} ms</span>
         </div>
       </header>
 
